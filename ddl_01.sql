@@ -120,7 +120,7 @@ CREATE TABLE InvoiceDetails (
     productID INT NOT NULL,
     priceAtSale DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (invoiceDetailsID),
-    unique key (invoiceID, productID),
+    UNIQUE KEY (invoiceID, productID),
     FORIEGN KEY (invoiceID)
         REFERENCES Invoices(invoiceID)
         ON UPDATE CASCADE
@@ -139,7 +139,7 @@ DROP TABLE IF EXISTS Suppliers;
 CREATE TABLE Suppliers (
     supplierID INT NOT NULL AUTO_INCREMENT,
     supplierName VARCHAR(100) NOT NULL,
-    cONtactName VARCHAR(100) NOT NULL,
+    contactName VARCHAR(100) NOT NULL,
     supplierPhONeNumber VARCHAR(20) NOT NULL,
     supplierAddress VARCHAR(100),
     PRIMARY KEY (supplierID)
@@ -157,7 +157,7 @@ CREATE TABLE SupplierProducts (
     productID INT NOT NULL,
     supplierID INT NOT NULL,
     PRIMARY KEY (supplierProductID),
-    unique key (productID, supplierID),
+    UNIQUE KEY (productID, supplierID),
     FORIEGN KEY (productID)
         REFERENCES Products(productID)
         ON UPDATE CASCADE
@@ -175,13 +175,13 @@ CREATE TABLE SupplierProducts (
 
 INSERT INTO Brands (brandName)
 VALUES
-    ('LegiON'),
-    ('Optimum NutritiON'),
+    ('Legion'),
+    ('Optimum Nutrition'),
     ('Transparent Labs'),
     ('Dynamatize'),
     ('Garden of Life');
 
-INSERT INTO ProteINTypes (proteINType)
+INSERT INTO ProteinTypes (proteinType)
 VALUES
     ('Whey'),
     ('Casein'),
@@ -205,7 +205,7 @@ VALUES
     ('Casein+', 64.99, 1, 2, 2, 25),
     ('Grass-Fed Whey Protein Isolate', 59.99, 3, 1, 4, 20);
 
-INSERT INTO Suppliers (supplierName, cONtactName, supplierPhONeNumber, supplierAddress)
+INSERT INTO Suppliers (supplierName, contactName, supplierPhoneNumber, supplierAddress)
 VALUES
     ('UNFI', 'John Doe', '206-444-1111', '123 Maple St'),
     ('Europa Sports Products', 'Alex Smith', '718-333-2222', '987 Cedar Ln'),
@@ -220,7 +220,7 @@ VALUES
     (1, 3, 27.99),
     (1, 1, 28.49);
 
-INSERT INTO Customers (customerName, phONeNumber, address)
+INSERT INTO Customers (customerName, phoneNumber, address)
 VALUES
     ('John Forman', '425-555-1234', '123 Main St'),
     ('Dean Smith', '718-555-5678', '456 Oak Ave'),
