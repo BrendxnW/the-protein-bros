@@ -1,7 +1,6 @@
 from pathlib import Path
-
 from flask import Flask, render_template
-
+from db_connector import connect
 
 FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
 
@@ -10,6 +9,11 @@ app = Flask(__name__, template_folder=str(FRONTEND_DIR))
 
 @app.route("/products")
 def products():
+    conn = connect()
+    cursor = conn.cusrosr()
+
+    cursor.execute("SELECT * FROM Products")
+
     return render_template("products.html")
 
 

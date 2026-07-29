@@ -36,7 +36,7 @@ CREATE TABLE Invoices (
     totalCost DECIMAL(10,2) NOT NULL,
     orderDate DATE NOT NULL,
     PRIMARY KEY (invoiceID),
-    FORIEGN KEY (customerID)
+    FOREIGN KEY (customerID)
         REFERENCES Customers(customerID)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
@@ -92,15 +92,15 @@ CREATE TABLE Products (
     flavorID INT NOT NULL,
     stockQuantity INT NOT NULL,
     PRIMARY KEY (productID),
-    FORIEGN KEY (brandID)
+    FOREIGN KEY (brandID)
         REFERENCES Brands(brandID)
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
-    FORIEGN KEY (proteinType)
+    FOREIGN KEY (proteinType)
         REFERENCES ProteinTypes(proteinType)
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
-    FORIEGN KEY (flavorID)
+    FOREIGN KEY (flavorID)
         REFERENCES Flavors(flavorID)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
@@ -121,11 +121,11 @@ CREATE TABLE InvoiceDetails (
     priceAtSale DECIMAL(10,2) NOT NULL,
     PRIMARY KEY (invoiceDetailsID),
     UNIQUE KEY (invoiceID, productID),
-    FORIEGN KEY (invoiceID)
+    FOREIGN KEY (invoiceID)
         REFERENCES Invoices(invoiceID)
         ON UPDATE CASCADE
         ON DELETE cascade,
-    FORIEGN KEY (productID)
+    FOREIGN KEY (productID)
         REFERENCES Products(productID)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
@@ -158,11 +158,11 @@ CREATE TABLE SupplierProducts (
     supplierID INT NOT NULL,
     PRIMARY KEY (supplierProductID),
     UNIQUE KEY (productID, supplierID),
-    FORIEGN KEY (productID)
+    FOREIGN KEY (productID)
         REFERENCES Products(productID)
         ON UPDATE CASCADE
         ON DELETE RESTRICT,
-    FORIEGN KEY (supplierID)
+    FOREIGN KEY (supplierID)
         REFERENCES Suppliers(supplierID)
         ON UPDATE CASCADE
         ON DELETE RESTRICT
