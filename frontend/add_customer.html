@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Protein Bros</title>
+    <link rel="stylesheet" href="style/styles.css">
+</head>
+    <body>
+
+    <h1>ADD CUSTOMER</h1>
+        <form action="/submit-data-endpoint" method="POST">
+            <div>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+
+            <div>
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required>
+            </div>
+
+
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+
+
+            <div>
+                <button type="submit">Submit Form</button>
+            </div>
+
+    </body>
+</html>
