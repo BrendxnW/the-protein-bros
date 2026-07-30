@@ -34,7 +34,7 @@ function App() {
                 <Route path="/proteintypes" element={<ProteinTypes backendURL={backendURL} />} />
                 <Route path="/flavors" element={<Flavors backendURL={backendURL} />} />
                 <Route path="/invoices" element={<Invoices backendURL={backendURL} />} />
-                <Route path="/create-invoice" element={<CreateInvoice backendURL={backendURL} />} />
+                <Route path="/add-invoice" element={<CreateInvoice backendURL={backendURL} />} />
                 <Route path="/add-product" element={<AddProduct backendURL={backendURL} />} />
             </Routes>
         </>

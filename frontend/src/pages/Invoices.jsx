@@ -8,7 +8,7 @@ function Invoices({backendURL}) {
         <>
         <h1>Invoices Page</h1>
 
-        <button onClick={() => navigate("/new-invoice")}>Add New Invoice</button>
+        <button onClick={() => navigate("/add-invoice")}>Add New Invoice</button>
 
         <table>
             <tr>
