@@ -12,6 +12,7 @@ import Flavors from './pages/Flavors';
 import Invoices from './pages/Invoices';
 import CreateInvoice from './pages/CreateInvoice';
 import AddProduct from './pages/AddProduct';
+import InvoiceDetails from './pages/InvoiceDetails';
 
 // Components
 import Navigation from './components/Navigation';
@@ -36,6 +37,7 @@ function App() {
                 <Route path="/invoices" element={<Invoices backendURL={backendURL} />} />
                 <Route path="/add-invoice" element={<CreateInvoice backendURL={backendURL} />} />
                 <Route path="/add-product" element={<AddProduct backendURL={backendURL} />} />
+                <Route path="/invoice-details/:invoiceID" element={<InvoiceDetails backendURL={backendURL} />} />
             </Routes>
         </>
     );
