@@ -54,7 +54,15 @@ from Products
 -- Invoice Details Queries
 ------
 
-
+-- Get invoice details of a specific invoice
+select InvoiceDetails.invoiceDetailsID, InvoiceDetails.invoiceID as "Invoice ID",
+Products.productName as "Product", InvoiceDetails.quantityOrdered as "Quantity",
+InvoiceDetails.priceAtSale as "Price"
+from InvoiceDetails
+    join Invoices on Invoices.invoiceID = InvoiceDetails.invoiceID
+    join Products on Products.productID = InvoiceDetails.productID
+where Invoices.invoiceID = :invoiceID
+order by InvoiceDetails.invoiceDetailsID;
 
 ------
 -- Supplier Products Queries
