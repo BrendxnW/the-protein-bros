@@ -14,6 +14,7 @@ import CreateInvoice from './pages/CreateInvoice';
 import AddProduct from './pages/AddProduct';
 import InvoiceDetails from './pages/InvoiceDetails';
 import SupplierProducts from './pages/SupplierProducts';
+import EditProduct from './pages/EditProduct';
 
 // Components
 import Navigation from './components/Navigation';
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/add-product" element={<AddProduct backendURL={backendURL} />} />
                 <Route path="/invoice-details/:invoiceID" element={<InvoiceDetails backendURL={backendURL} />} />
                 <Route path="/supplier-products/:supplierID" element={<SupplierProducts backendURL={backendURL} />} />
+                <Route path="/edit-product/:productID" element={<EditProduct backendURL={backendURL} />} />
             </Routes>
         </>
     );

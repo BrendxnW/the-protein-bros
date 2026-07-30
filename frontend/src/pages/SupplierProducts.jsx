@@ -19,6 +19,11 @@ function SupplierProducts({backendURL}) {
     const {supplierID} = useParams();
     const products = productsList[supplierID];
 
+    function deleteProduct() {
+        const confirm = window.confirm("Are you sure you want to delete this item?");
+        if (confirm) {}
+    }
+
     return (
         <>
         <h1>{supplierID}</h1>
@@ -29,6 +34,8 @@ function SupplierProducts({backendURL}) {
                     <th>Item ID</th>
                     <th>Product</th>
                     <th>WholeSale Cost</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -37,6 +44,8 @@ function SupplierProducts({backendURL}) {
                         <td>{i.id}</td>
                         <td>{i.product}</td>
                         <td>{i.price}</td>
+                        <td><button onClick={() => Navigate("/edit-product/${productID}")}>Edit</button></td>
+                        <td><button onClick={() => deleteProduct()}>Delete</button></td>
                     </tr>
                 ))}
             </tbody>
