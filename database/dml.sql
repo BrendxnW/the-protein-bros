@@ -1,8 +1,8 @@
 -- Queries that the app uses to let users interact with data (select/insert/update/delete)
 
-------
--- Products Queries
-------
+----------------------
+-- Products Queries --
+----------------------
 
 -- get all Products and their Brand, ProteinType, Flavor, and cost for the browse Products page
 select Products.productID as "Item ID", Products.productName as "Product", Brands.brandName as "Brand",
@@ -11,7 +11,6 @@ from Products
     join Brands on Brands.brandID = Products.brandID
     join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID
     join Flavors on Flavors.flavorID = Products.flavorID;
-
 
 
 ------
@@ -26,10 +25,14 @@ from Products
 
 
 
-------
--- Suppliers Queries
-------
+-----------------------
+-- Suppliers Queries --
+-----------------------
 
+-- retrieve Suppliers info to populate supplier page
+select supplierName as "Supplier", contactName as "Contact",
+supplierPhoneNumber as "Phone Number", supplierAddress as "Address"
+from Suppliers;
 
 
 ------
@@ -50,9 +53,9 @@ from Products
 
 
 
-------
--- Invoice Details Queries
-------
+-----------------------------
+-- Invoice Details Queries --
+-----------------------------
 
 -- Get invoice details of a specific invoice
 select InvoiceDetails.invoiceDetailsID, InvoiceDetails.invoiceID as "Invoice ID",
@@ -64,9 +67,17 @@ from InvoiceDetails
 where Invoices.invoiceID = :invoiceID
 order by InvoiceDetails.invoiceDetailsID;
 
-------
--- Supplier Products Queries
-------
 
+-------------------------------
+-- Supplier Products Queries --
+-------------------------------
+
+-- Get the list of products supplied by a specific vendor
+select Products.productID as "Item ID", Products.productName as "Product",
+SupplierProducts.wholesalePrice as "Wholesale Price"
+from SupplierProducts
+    join Products on Products.productID = SupplierProducts.productID
+    join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
+where Suppliers.supplierID = :supplierID;
 
 
