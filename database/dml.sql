@@ -30,12 +30,8 @@ select flavorID, flavorName
 from Flavors;
 
 -- Get a Product's data for the Update form given its ID
-select Products.productID, Products.productName, Products.cost, Products.stockQuantity,
-Brands.brandName, ProteinTypes.proteinType, Flavors.flavorName
+select productID, productName, cost, stockQuantity, brandID, proteinTypeID, flavorID
 from Products
-    join Brands on Brands.brandID = Products.brandID
-    join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID
-    join Flavors on Flavors.flavorID = Products.flavorID
 where Products.productID = :selectedProductID;
 
 -- Update a Product's data given its ID
@@ -86,13 +82,9 @@ Customers.customerName as "Customer", Invoices.totalCost as "Invoice Total"
 from Invoices
     join Customers on Customers.customerID = Invoices.customerID;
 
--- Add a new Invoice
-insert into Invoices (customer)
-
--------------------------------------------------------------------------------
----------= WILL ALSO NEED TO DO AN INVOICEDETAILS ALONGSIDE IT
-----------------------------------------------------------------------
-
+-- Add a new Invoice (done alongside new InvoiceDetails)
+insert into Invoices (customerID, totalCost, orderDate)
+values (:customerIDInput, :totalCostCalculated, :orderDate);
 
 
 
@@ -135,23 +127,22 @@ select brandID, brandName
 from Brands;
 
 
-
-------
--- Protein Types Queries
-------
+---------------------------
+-- Protein Types Queries --
+---------------------------
 
 -- Get all Protein Types to display in the Protein types page
 select proteinTypeID, proteinType
 from ProteinTypes;
 
 
+---------------------
+-- Flavors Queries --
+---------------------
 
-------
--- Flavors Queries
-------
+-- Get all the Flavors to display in the Flavors pages
 select flavorID, flavorName
 from Flavors;
-
 
 
 -----------------------------
@@ -168,13 +159,17 @@ from InvoiceDetails
 where Invoices.invoiceID = :invoiceID
 order by InvoiceDetails.invoiceDetailsID;
 
+-- Add new InvoiceDetails
+insert into InvoiceDetails (invoiceID, productID, quantityOrdered, priceAtSale)
+values (:invoiceIDInput, :productIDInput, :quantityOrderedInput, :priceAtSaleGiven);
+
 
 
 -------------------------------
 -- Supplier Products Queries --
 -------------------------------
 
--- Get the list of products supplied by a specific vendor
+-- Get all Products of a Supplier given the supplier ID to display in Supplier Products page
 select Products.productID as "Item ID", Products.productName as "Product",
 SupplierProducts.wholesalePrice as "Wholesale Price"
 from SupplierProducts
@@ -182,4 +177,20 @@ from SupplierProducts
     join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
 where Suppliers.supplierID = :supplierID;
 
+-- Add new Supplier-Products relationship
+insert into SupplierProducts (productID, supplierID)
+values (:productIDInput, :supplierIDInput)
 
+-- Get all the Products of a Supplier given the supplier ID
+select supplierProductID, productID, supplierID, wholesalePrice
+from SupplierProducts
+where supplierID = :selectedSupplierID;
+
+-- Update the Products of a Supplier given the supplier ID
+update SupplierProducts
+    set productID = :productIDInput, supplierID = :supplierIDInput, wholesalePrice = :wholesalePriceInput
+where supplierID = :selectedSupplierID and productID = :selectedProductID;
+
+-- Delete a Product from a Supplier given the supplier ID
+delete from SupplierProducts
+where supplierID = :selectedSupplierID and productID = :selectedProductID;
