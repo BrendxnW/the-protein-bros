@@ -10,18 +10,21 @@ import Brands from './pages/Brands';
 import ProteinTypes from './pages/ProteinTypes';
 import Flavors from './pages/Flavors';
 import Invoices from './pages/Invoices';
-
-
+import CreateInvoice from './pages/CreateInvoice';
+import AddProduct from './pages/AddProduct';
+import InvoiceDetails from './pages/InvoiceDetails';
+import SupplierProducts from './pages/SupplierProducts';
+import EditProduct from './pages/EditProduct';
 
 // Components
 import Navigation from './components/Navigation';
 
 // Define the backend port and URL for API requests
-const backendPort = 3900;  // Use the port you assigned to the backend server, this would normally go in a .env file
-const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
+const URL = import.meta.env.VITE_URL;
+const backendPort = import.meta.env.VITE_PORT;  
+const backendURL = `${URL}:${backendPort}`;
 
 function App() {
-
     return (
         <>
             <Navigation />
@@ -34,6 +37,11 @@ function App() {
                 <Route path="/proteintypes" element={<ProteinTypes backendURL={backendURL} />} />
                 <Route path="/flavors" element={<Flavors backendURL={backendURL} />} />
                 <Route path="/invoices" element={<Invoices backendURL={backendURL} />} />
+                <Route path="/add-invoice" element={<CreateInvoice backendURL={backendURL} />} />
+                <Route path="/add-product" element={<AddProduct backendURL={backendURL} />} />
+                <Route path="/invoice-details/:invoiceID" element={<InvoiceDetails backendURL={backendURL} />} />
+                <Route path="/supplier-products/:supplierID" element={<SupplierProducts backendURL={backendURL} />} />
+                <Route path="/edit-product/:productID" element={<EditProduct backendURL={backendURL} />} />
             </Routes>
         </>
     );
