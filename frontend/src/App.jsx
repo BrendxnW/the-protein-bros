@@ -15,8 +15,9 @@ import Invoices from './pages/Invoices';
 import Navigation from './components/Navigation';
 
 // Define the backend port and URL for API requests
-const backendPort = BACKEND_PORT;  
-const backendURL = `http://classwork.engr.oregonstate.edu:${backendPort}`;
+const URL = import.meta.env.VITE_URL;
+const backendPort = import.meta.env.VITE_PORT;  
+const backendURL = `${URL}:${backendPort}`;
 
 function App() {
     return (
