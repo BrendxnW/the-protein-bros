@@ -140,7 +140,7 @@ CREATE TABLE Suppliers (
     supplierID INT NOT NULL AUTO_INCREMENT,
     supplierName VARCHAR(100) NOT NULL,
     contactName VARCHAR(100) NOT NULL,
-    supplierPhONeNumber VARCHAR(20) NOT NULL,
+    supplierPhoneNumber VARCHAR(20) NOT NULL,
     supplierAddress VARCHAR(100),
     PRIMARY KEY (supplierID)
 );

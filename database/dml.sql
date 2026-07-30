@@ -4,7 +4,7 @@
 -- Products Queries --
 ----------------------
 
--- Get all Products data to display in the Products page
+-- Get all Products to display in the Products page
 select Products.productID as "Item ID", Products.productName as "Product", Brands.brandName as "Brand",
 Flavors.flavorName as "Flavor", ProteinTypes.proteinType as "Protein", Products.cost as "Price"
 from Products
@@ -54,7 +54,7 @@ where productID = :selectedProductID;
 -- Customers Queries --
 -----------------------
 
--- Get all Customers data to display in the Customers page
+-- Get all Customers to display in the Customers page
 select customerID as "Customer ID", customerName as "Customer", phoneNumber as "Phone Number",
 address as "Address"
 from Customers
@@ -76,10 +76,23 @@ where customerID = :selectedCustomerID
 
 
 
-
 ---------------------
 -- Invoice Queries --
 ---------------------
+
+-- Get all Invoices to display in the Invoices page
+select Invoices.invoiceID as "Invoice Number", Invoices.orderDate as "Date", 
+Customers.customerName as "Customer", Invoices.totalCost as "Invoice Total"
+from Invoices
+    join Customers on Customers.customerID = Invoices.customerID;
+
+-- Add a new Invoice
+insert into Invoices (customer)
+
+-------------------------------------------------------------------------------
+---------= WILL ALSO NEED TO DO AN INVOICEDETAILS ALONGSIDE IT
+----------------------------------------------------------------------
+
 
 
 
@@ -87,15 +100,39 @@ where customerID = :selectedCustomerID
 -- Suppliers Queries --
 -----------------------
 
--- retrieve Suppliers info to populate supplier page
-select supplierName as "Supplier", contactName as "Contact",
+-- Get all Suppliers to display in the Suppliers page
+select supplierID as "Supplier ID", supplierName as "Supplier", contactName as "Contact",
 supplierPhoneNumber as "Phone Number", supplierAddress as "Address"
 from Suppliers;
 
+-- Add new Supplier
+insert into Suppliers (supplierName, contactName, supplierPhoneNumber, supplierAddress)
+values (:supplierNameInput, :contactNameInput, :supplierPhoneNumberInput, :supplierAddress);
 
-------
--- Brands Queries
-------
+-- Get a Supplier's data for the Update form given their ID
+select supplierID, supplierName, contactName, supplierPhoneNumber, supplierAddress
+from Suppliers
+where supplierID = :selectedSupplierID;
+
+-- Update a Supplier's data given their ID
+update Suppliers
+    set supplierName = :supplierNameInput, contactName = :contactNameInput,
+    supplierPhoneNumber = :supplierPhoneNumber, supplierAddress = :supplierAddressInput
+where supplierID = :selectedSupplierID;
+
+-- Delete a Supplier given their ID
+delete from Suppliers
+where supplierID = :selectedSupplierID;
+
+
+
+--------------------
+-- Brands Queries --
+--------------------
+
+-- Get all Brands to display in the Brands page
+select brandID, brandName
+from Brands;
 
 
 
@@ -103,11 +140,17 @@ from Suppliers;
 -- Protein Types Queries
 ------
 
+-- Get all Protein Types to display in the Protein types page
+select proteinTypeID, proteinType
+from ProteinTypes;
+
 
 
 ------
 -- Flavors Queries
 ------
+select flavorID, flavorName
+from Flavors;
 
 
 
@@ -124,6 +167,7 @@ from InvoiceDetails
     join Products on Products.productID = InvoiceDetails.productID
 where Invoices.invoiceID = :invoiceID
 order by InvoiceDetails.invoiceDetailsID;
+
 
 
 -------------------------------
