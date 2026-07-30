@@ -10,6 +10,8 @@ import Brands from './pages/Brands';
 import ProteinTypes from './pages/ProteinTypes';
 import Flavors from './pages/Flavors';
 import Invoices from './pages/Invoices';
+import CreateInvoice from './pages/CreateInvoice';
+import AddProduct from './pages/AddProduct';
 
 // Components
 import Navigation from './components/Navigation';
@@ -32,6 +34,8 @@ function App() {
                 <Route path="/proteintypes" element={<ProteinTypes backendURL={backendURL} />} />
                 <Route path="/flavors" element={<Flavors backendURL={backendURL} />} />
                 <Route path="/invoices" element={<Invoices backendURL={backendURL} />} />
+                <Route path="/create-invoice" element={<CreateInvoice backendURL={backendURL} />} />
+                <Route path="/add-product" element={<AddProduct backendURL={backendURL} />} />
             </Routes>
         </>
     );

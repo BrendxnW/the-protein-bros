@@ -9,7 +9,7 @@ select Products.productID as "Item ID", Products.productName as "Product", Brand
 Flavors.flavorName as "Flavor", ProteinTypes.proteinType as "Protein", Products.cost as "Price"
 from Products
     join Brands on Brands.brandID = Products.brandID
-    join ProteinTypes on ProteinType.proteinTypeID = Products.proteinTypeID
+    join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID
     join Flavors on Flavors.flavorID = Products.flavorID;
 
 

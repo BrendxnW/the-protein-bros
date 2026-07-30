@@ -1,6 +1,4 @@
-// ########################################
-// ########## SETUP
-
+// Setup
 require("dotenv").config();
 
 // Database
@@ -20,14 +18,13 @@ const PORT = process.env.PORT;
 
 
 
-// ########################################
-// ########## ROUTE HANDLERS
+// Route Handlers
 
-// READ ROUTES
+// Products
 app.get('/products', async (req, res) => {
     try {
-        const query1 = `select Products.productID as "Item ID", Products.productName as Product, \
-            Brands.brandName as Brand \
+        const query1 = `select Products.productID as "Item ID", Products.productName as "Product", \
+            Brands.brandName as "Brand" \
             FROM Products \
             JOIN Brands ON Brands.brandID = Products.brandID;`;
         const query2 = 'SELECT * FROM Brands;';
@@ -45,9 +42,7 @@ app.get('/products', async (req, res) => {
 
 
 
-// ########################################
-// ########## LISTENER
-
+// Listener
 app.listen(PORT, function () {
     console.log('Server running on port ' + PORT + '; press Ctrl-C to terminate.');
 });
