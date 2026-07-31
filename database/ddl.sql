@@ -199,11 +199,46 @@ VALUES
 
 INSERT INTO Products (productName, cost, brandID, proteinTypeID, flavorID, stockQuantity)
 VALUES
-    ('Gold Standard 100% Whey', 34.99, 2, 1, 2, 50),
-    ('ISO100', 39.99, 4, 1, 3, 40),
-    ('Sport Plant-Based Protein', 34.99, 5, 4, 1, 30),
-    ('Casein+', 64.99, 1, 2, 2, 25),
-    ('Grass-Fed Whey Protein Isolate', 59.99, 3, 1, 4, 20);
+    (
+        'Gold Standard 100% Whey',
+        34.99, 
+        (select brandID from Brands where brandName = "Optimum Nutrition"),
+        (select proteinTypeID from ProteinTypes where proteinType = "Whey"),
+        (select flavorID from Flavors where flavorName = "Chocolate"),
+        240
+    ),
+    (
+        'ISO100',
+        39.99,
+        (select brandID from Brands where brandName = "Dynamatize"),
+        (select proteinTypeID from ProteinTypes where proteinType = "Whey"),
+        (select flavorID from Flavors where flavorName = "Cookies & Cream"),
+        180
+    ),
+    (
+        'Sport Plant-Based Protein',
+        34.99,
+        (select brandID from Brands where brandName = "Garden of Life"),
+        (select proteinTypeID from ProteinTypes where proteinType = "Pea"),
+        (select flavorID from Flavors where flavorName = "Vanilla"),
+        95
+    ),
+    (
+        'Casein+',
+        64.99,
+        (select brandID from Brands where brandName = "Legion"),
+        (select proteinTypeID from ProteinTypes where proteinType = "Casein"),
+        (select flavorID from Flavors where flavorName = "Chocolate"),
+        60
+    ),
+    (
+        'Grass-Fed Whey Protein Isolate',
+        59.99,
+        (select brandID from Brands where brandName = "Transparent Labs"),
+        (select proteinTypeID from ProteinTypes where proteinType = "Whey"),
+        (select flavorID from Flavors where flavorName = "Salted Caramel"),
+        120
+    );
 
 INSERT INTO Suppliers (supplierName, contactName, supplierPhoneNumber, supplierAddress)
 VALUES
@@ -211,14 +246,39 @@ VALUES
     ('Europa Sports Products', 'Alex Smith', '718-333-2222', '987 Cedar Ln'),
     ('Muscle Foods USA', 'Jamie Lee', '718-999-5555', '426 Pine Rd');
 
-INSERT INTO SupplierProducts (productID, supplierID, wholesalePrice)
+INSERT INTO SupplierProducts (wholesalePrice, productID, supplierID)
 VALUES
-    (5, 2, 41.99),
-    (4, 2, 45.49),
-    (3, 3, 24.49),
-    (2, 1, 27.99),
-    (1, 3, 27.99),
-    (1, 1, 28.49);
+    (
+        41.99,
+        (select productID from Products where productName = "Grass-Fed Whey Protein Isolate"),
+        (select supplierID from Suppliers where supplierName = "Europa Sports Products")
+    ),
+    (
+        45.49,
+        (select productID from Products where productName = "Casein+"),
+        (select supplierID from Suppliers where supplierName = "Europa Sports Products")
+    ),
+    (
+        24.49,
+        (select productID from Products where productName = "Sport Plant-Based Protein"),
+        (select supplierID from Suppliers where supplierName = "Muscle Foods USA")
+    ),
+    (
+        27.99,
+        (select productID from Products where productName = "ISO100"),
+        (select supplierID from Suppliers where supplierName = "UNFI")
+    ),
+    (
+        27.99,
+        (select productID from Products where productName = "Gold Standard 100% Whey"),
+        (select supplierID from Suppliers where supplierName = "Muscle Foods USA")
+    ),
+    (
+        28.49,
+        (select productID from Products where productName = "Gold Standard 100% Whey"),
+        (select supplierID from Suppliers where supplierName = "UNFI")
+    );
+
 
 INSERT INTO Customers (customerName, phoneNumber, address)
 VALUES
@@ -229,19 +289,65 @@ VALUES
 
 INSERT INTO Invoices (customerID, totalCost, orderDate)
 VALUES
-    (1, 104.97, '2025-01-14'),
-    (2, 39.99, '2025-04-02'),
-    (3, 99.98, '2025-07-19'),
-    (1, 59.99, '2025-10-08');
+    (
+        (select customerID from Customers where customerName = "John Forman"),
+        104.97,
+        '2025-01-14'
+    ),
+    (
+        (select customerID from Customers where customerName = "Dean Smith"),
+        39.99,
+        '2025-04-02'
+    ),
+    (
+        (select customerID from Customers where customerName = "Bob Marley"),
+        99.98,
+        '2025-07-19'
+    ),
+    (
+        (select customerID from Customers where customerName = "John Forman"),
+        59.99,
+        '2025-10-08'
+    );
 
 INSERT INTO InvoiceDetails (quantityOrdered, invoiceID, productID, priceAtSale)
 VALUES
-    (2, 1, 1, 34.99),
-    (1, 1, 3, 34.99),
-    (1, 2, 2, 39.99),
-    (1, 3, 4, 64.99),
-    (1, 3, 3, 34.99),
-    (1, 4, 5, 59.99);
+    (
+        2,
+        1,
+        (select productID from Products where productName = "Gold Standard 100% Whey"),
+        34.99
+    ),
+    (
+        1,
+        1,
+        (select productID from Products where productName = "Sport Plant-Based Protein"),
+        34.99
+    ),
+    (
+        1,
+        2,
+        (select productID from Products where productName = "ISO100"),
+        39.99
+    ),
+    (
+        1,
+        3,
+        (select productID from Products where productName = "Casein+"),
+        64.99
+    ),
+    (
+        1,
+        3,
+        (select productID from Products where productName = "Sport Plant-Based Protein"),
+        34.99
+    ),
+    (
+        1,
+        4,
+        (select productID from Products where productName = "Grass-Fed Whey Protein Isolate"),
+        59.99
+    );
 
 SET foreign_key_checks = 1;
 COMMIT;
