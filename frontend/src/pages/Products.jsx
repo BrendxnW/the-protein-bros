@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 
 function Products() {
@@ -105,6 +106,8 @@ function Products() {
 }
 
 =======
+=======
+>>>>>>> a45a4994e6f73e30f2cbc9486edcd9a8b6a92dd3
 function Products({backendURL}) {
     const navigate = useNavigate();
 
@@ -181,5 +184,8 @@ function Products({backendURL}) {
         </>
     )
 };
+<<<<<<< HEAD
 >>>>>>> a01524f6cad6642f93a926843032b70d9dce163a
+=======
+>>>>>>> a45a4994e6f73e30f2cbc9486edcd9a8b6a92dd3
 export default Products;
