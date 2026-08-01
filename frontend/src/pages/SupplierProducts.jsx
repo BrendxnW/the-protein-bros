@@ -1,32 +1,39 @@
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 
 function SupplierProducts({backendURL}) {
     const productsList = {
-        "UNFI": [
+        1: [
             {id: 1, product: "Gold Standard 100% Whey", price: 28.49},
             {id: 2, product: "ISO100", price: 27.99}
         ],
-        "Europa Sports Products": [
+        2: [
             {id: 5, product: "Grass-Fed Whey Protein Isolate", price: 41.99},
             {id: 4, product: "Casein+", price: 45.49}
         ],
-        "Muscle Foods USA": [
+        3: [
             {id: 3, product: "Sport Plant-Based Protein", price: 24.49},
             {id: 1, product: "Gold Standard 100% Whey", price: 27.99}
         ]
     };
 
+    const key = {
+        1: "UNFI",
+        2: "Europa Sports Products",
+        3: "Muscle Foods USA"
+    };
+    const navigate = useNavigate();
     const {supplierID} = useParams();
+    const title = key[supplierID];
     const products = productsList[supplierID];
 
     function deleteProduct() {
-        const confirm = window.confirm("Are you sure you want to delete this item?");
-        if (confirm) {}
-    }
+        const check = window.confirm("Are you sure you want to delete this item?");
+        if (check) {}
+    };
 
     return (
         <>
-        <h1>{supplierID}</h1>
+        <h1>{title}</h1>
 
         <table>
             <thead>
@@ -40,11 +47,11 @@ function SupplierProducts({backendURL}) {
             </thead>
             <tbody>
                 {products.map((i) => (
-                    <tr key={i}>
+                    <tr key={i.id}>
                         <td>{i.id}</td>
                         <td>{i.product}</td>
                         <td>{i.price}</td>
-                        <td><button onClick={() => Navigate("/edit-product/${productID}")}>Edit</button></td>
+                        <td><button onClick={() => navigate(`/edit-product/${i.id}`)}>Edit</button></td>
                         <td><button onClick={() => deleteProduct()}>Delete</button></td>
                     </tr>
                 ))}
