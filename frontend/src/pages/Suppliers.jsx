@@ -27,7 +27,7 @@ function Suppliers({backendURL}) {
                         <td>{i.contact}</td>
                         <td>{i.number}</td>
                         <td>{i.address}</td>
-                        <td><Link to={`/supplier-products/${i.supplier}`}>Products</Link></td>
+                        <td><Link to={`/supplier-products/${i.id}`}>Products</Link></td>
                     </tr>
                 ))}
             </tbody>
