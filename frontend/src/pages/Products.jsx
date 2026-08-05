@@ -60,14 +60,16 @@ function Products({ backendURL }) {
         if (confirmed) {
             alert(`Product ${productID} would be deleted`);
 
-            // Your backend DELETE request will go here later.
         }
     }
 
     return (
         <>
-            <h1>Products</h1>
-
+            <div className="page-header">
+            
+                <h1>Products</h1>
+                <button className="add-button" onClick={() => navigate("/add-product")}> + Add Product</button>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -78,7 +80,7 @@ function Products({ backendURL }) {
                         <th>Protein</th>
                         <th>Price</th>
                         <th>Inventory</th>
-                        <th>Delete</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
@@ -93,14 +95,17 @@ function Products({ backendURL }) {
                             <td>${product.price.toFixed(2)}</td>
                             <td>{product.inventory}</td>
                             <td>
-                                <button className="delete-button" onClick={() => deleteProduct(product.id)}>Delete</button>
+                                <button className="edit-button" onClick={() => deleteProduct(product.id)}>
+Edit</button>
+<button className="delete-button"     margin-left: 16px; onClick={() => deleteProduct(product.id)}>
+Delete</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            <button className="add-button" onClick={() => navigate("/add-product")}> Add New Product</button>
+            
         </>
     );
 }
