@@ -6,7 +6,6 @@ function Products({backendURL}) {
     return (
         <>
         <h1>Products Page</h1>
-        <button onClick={() => navigate("/add-product")}>Add New Product</button>
         <table>
             <thead>
                 <tr>
@@ -73,6 +72,8 @@ function Products({backendURL}) {
                 </tr>
             </tbody>
         </table>
+	<button onClick={() => navigate("/add-product")}>Add New Product</button>
+	<button>Reset</button>
         </>
     )
 };
