@@ -65,11 +65,10 @@ function Products({ backendURL }) {
 
     return (
         <>
-            <div className="page-header">
-            
-                <h1>Products</h1>
-                <button className="add-button" onClick={() => navigate("/add-product")}> + Add Product</button>
-            </div>
+
+            <h1>Products</h1>
+            <button className="add-button" onClick={() => navigate("/add-product")}> + Add Product</button>
+
             <table>
                 <thead>
                     <tr>
@@ -97,7 +96,7 @@ function Products({ backendURL }) {
                             <td>
                                 <button className="edit-button" onClick={() => deleteProduct(product.id)}>
 Edit</button>
-<button className="delete-button"     margin-left: 16px; onClick={() => deleteProduct(product.id)}>
+<button className="delete-button" onClick={() => deleteProduct(product.id)}>
 Delete</button>
                             </td>
                         </tr>
