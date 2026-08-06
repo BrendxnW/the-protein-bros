@@ -40,7 +40,7 @@ function SupplierProducts({backendURL}) {
                 <tr>
                     <th>Item ID</th>
                     <th>Product</th>
-                    <th>WholeSale Cost</th>
+                    <th>WholeSale</th>
                     <th>Actions</th>
                 </tr>
             </thead>

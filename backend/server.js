@@ -23,15 +23,21 @@ const PORT = process.env.PORT;
 // Products
 app.get('/products', async (req, res) => {
     try {
-        const query1 = `select Products.productID as "Item ID", Products.productName as "Product", \
-            Brands.brandName as "Brand" \
-            FROM Products \
-            JOIN Brands ON Brands.brandID = Products.brandID;`;
-        const query2 = 'SELECT * FROM Brands;';
+        const query1 = `select productID as 'id', \
+            productName as "product", \
+            Brands.brandName as "brand", \
+            Flavors.flavorName as "flavor", \
+            ProteinTypes.proteinType as "protein", \
+            cost as "price", \
+            stockQuantity as "inventory" \
+            from Products \
+            join Brands on Brands.brandID = Products.brandID \
+            join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID \
+            join Flavors on Flavors.flavorID = Products.flavorID
+            order by id asc;`
         const [products] = await db.query(query1);
-        const [brands] = await db.query(query2);
     
-        res.status(200).json({ products, brands });
+        res.status(200).json({ products });
 
     } catch (error) {
         console.error("Error executing queries:", error);
