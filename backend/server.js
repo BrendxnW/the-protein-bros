@@ -48,6 +48,17 @@ app.get('/customers', async (req,res) => {
 });
 
 
+// Suppliers
+app.get('/suppliers', async (req, res) => {
+    try {
+        const [suppliers] = await db.query(`select * from view_suppliers`);
+        res.status(200).json({ suppliers });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
 
 
 

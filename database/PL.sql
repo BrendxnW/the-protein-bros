@@ -20,19 +20,29 @@ from Products
 order by id asc;
 
 
-
-
 -- View Customers
 drop view if exists view_customers;
 CREATE VIEW view_customers
 AS
 select customerID as "id",
-customerName as "name",
-phoneNumber as "phone",
-address as "address"
+    customerName as "name",
+    phoneNumber as "phone",
+    address as "address"
 from Customers
 order by customerID asc;
 
+
+-- View Suppliers
+drop view if exists view_suppliers;
+create view view_suppliers
+as
+select supplierID as "id",
+    supplierName as "supplier",
+    contactName as "contact",
+    supplierPhoneNumber as "number",
+    supplierAddress as "address"
+from Suppliers
+order by supplier asc;
 
 
 

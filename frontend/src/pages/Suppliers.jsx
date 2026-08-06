@@ -1,14 +1,21 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 
 function Suppliers({backendURL}) {
     const navigate = useNavigate();
+    const [suppliers, setSuppliers] = useState([]);
 
-    const suppliersList = [
-        {id: 1, supplier: "UNFI", contact: "John Doe", number: "206-444-1111", address: "123 Maple St"},
-        {id: 2, supplier: "Europa Sports Products", contact: "Alex Smith", number: "718-333-2222", address: "987 Cedar Ln"},
-        {id: 3, supplier: "Muscle Foods USA", contact: "Jamie Lee", number: "718-999-5555", address: "426 Pine Rd"}
-    ]
+    const loadSuppliers = async() => {
+        const response = await fetch(`${backendURL}/suppliers`);
+        const data = await response.json();
+        setSuppliers(data.suppliers);
+    };
+
+    useEffect(() => {
+        loadSuppliers();
+    }, []);
+
     return (
         <>
         <h1>Suppliers Page</h1>
@@ -24,7 +31,7 @@ function Suppliers({backendURL}) {
                 </tr>
             </thead>
             <tbody>
-                {suppliersList.map((i) => (
+                {suppliers.map((i) => (
                     <tr key={i.id}>
                         <td>{i.supplier}</td>
                         <td>{i.contact}</td>
