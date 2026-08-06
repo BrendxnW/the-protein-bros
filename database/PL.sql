@@ -45,6 +45,20 @@ from Suppliers
 order by supplier asc;
 
 
+-- View Brands
+drop view if exists view_brands;
+create view view_brands
+as
+select brandID as 'id',
+    brandName as 'name'
+from Brands
+order by id asc;
+
+
+
+
+
+
 
 
 

@@ -1,5 +1,19 @@
+import { useState, useEffect } from 'react';
+import "../index.css";
 
 function Brands({backendURL}) {
+    const [brands, setBrands] = useState([]);
+
+    const loadBrands = async() => {
+        const response = await fetch(`${backendURL}/brands`);
+        const data = await response.json();
+        setBrands(data.brands);
+    };
+
+    useEffect(() => {
+        loadBrands();
+    }, []);
+
     return (
         <>
         <h1>Brands Page</h1>
@@ -12,26 +26,12 @@ function Brands({backendURL}) {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Legion</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Optimum Nutrition</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Transparent Labs</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>Dynamatize</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>Garden of Life</td>
-                </tr>
+                {brands.map((brand) => (
+                    <tr key={brand.id}>
+                        <td>{brand.id}</td>
+                        <td>{brand.name}</td>
+                    </tr>
+                ))}
             </tbody>
         </table>
         </>

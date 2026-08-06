@@ -59,6 +59,16 @@ app.get('/suppliers', async (req, res) => {
     }
 })
 
+// Brands
+app.get('/brands', async (req, res) => {
+    try {
+        const [brands] = await db.query(`select * from view_brands`);
+        res.status(200).json({ brands });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
 
 
 
