@@ -14,13 +14,26 @@ function Home() {
         { name: "Invoices", path: "/invoices" }
     ];
 
-    function resetTables() {
+    async function resetTables() {
         const confirmed = window.confirm(
             "Warning: This action cannot be undone. Are you sure you want to reset all tables?"
         );
 
         if (confirmed) {
-            alert("All tables have been reset.");
+            try {
+                const response = await fetch(`${backendURL}/reset`, {
+                    method: "POST"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Reset request failed");
+                }
+
+                alert("All tables have been reset.");
+            } catch (error) {
+                console.error("Error resetting tables:", error);
+                alert("Something went wrong while resetting the tables.");
+            }
         }
     }
 
