@@ -75,6 +75,17 @@ from Flavors
 order by id asc;
 
 
+-- View Invoices
+drop view if exists view_invoices;
+create view view_invoices
+as
+select Invoices.invoiceID as "id",
+    Invoices.orderDate as "date",
+    Customers.customerName as "customer",
+    Invoices.totalCost as "total"
+from Invoices
+    join Customers on Customers.customerID = Invoices.customerID
+order by id asc;
 
 
 

@@ -96,7 +96,16 @@ app.get('/flavors', async (req, res) => {
 })
 
 
-
+// View all Invoices
+app.get('/invoices', async (req, res) => {
+    try {
+        const [invoices] = await db.query(`select * from view_invoices`);
+        res.status(200).json({ invoices });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
 
 
 

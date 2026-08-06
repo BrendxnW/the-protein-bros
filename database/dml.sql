@@ -80,7 +80,8 @@ where customerID = :selectedCustomerID
 select Invoices.invoiceID as "Invoice Number", Invoices.orderDate as "Date", 
 Customers.customerName as "Customer", Invoices.totalCost as "Invoice Total"
 from Invoices
-    join Customers on Customers.customerID = Invoices.customerID;
+    join Customers on Customers.customerID = Invoices.customerID
+order by 'Invoice Number' asc;
 
 -- Add a new Invoice (done alongside new InvoiceDetails)
 insert into Invoices (customerID, totalCost, orderDate)

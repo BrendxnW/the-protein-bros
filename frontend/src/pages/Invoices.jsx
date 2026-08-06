@@ -1,34 +1,19 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 function Invoices({ backendURL }) {
     const navigate = useNavigate();
+    const [invoices, setInvoices] = useState([]);
 
-    const invoicesList = [
-        {
-            id: 1,
-            date: "2025-01-14",
-            customer: "John Forman",
-            total: 104.97
-        },
-        {
-            id: 2,
-            date: "2025-04-02",
-            customer: "Dean Smith",
-            total: 39.99
-        },
-        {
-            id: 3,
-            date: "2025-07-19",
-            customer: "Bob Marley",
-            total: 99.98
-        },
-        {
-            id: 4,
-            date: "2025-10-08",
-            customer: "John Forman",
-            total: 59.99
-        }
-    ];
+    const loadInvoices = async() => {
+        const response = await fetch(`${backendURL}/invoices`);
+        const data = await response.json();
+        setInvoices(data.invoices);
+    };
+
+    useEffect(() => {
+        loadInvoices();
+    }, []);
 
     return (
         <>
@@ -53,7 +38,7 @@ function Invoices({ backendURL }) {
                 </thead>
 
                 <tbody>
-                    {invoicesList.map((invoice) => (
+                    {invoices.map((invoice) => (
                         <tr key={invoice.id}>
                             <td>{invoice.id}</td>
                             <td>{invoice.date}</td>
