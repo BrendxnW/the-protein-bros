@@ -68,7 +68,7 @@ a {
     margin-bottom: 20px;
 }
 
-.edit-button {
+.gen-button {
     background-color: #D2B55B;
     color: white;
     border-radius: 5px;
@@ -78,7 +78,7 @@ a {
     margin-right: 3px;
 }
 
-.edit-button:hover {
+.gen-button:hover {
     cursor: pointer;
     background-color: #C49102;
 }

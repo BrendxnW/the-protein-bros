@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-
+import "../index.css";
 
 function Customers({backendURL}) {
     const navigate = useNavigate();
@@ -38,7 +38,7 @@ function Customers({backendURL}) {
                         <td>{i.name}</td>
                         <td>{i.phone}</td>
                         <td>{i.address}</td>
-                        <td><button className="edit-button" onClick={() => navigate(`/edit-customer/${i.id}`)}>Edit</button>
+                        <td><button className="gen-button" onClick={() => navigate(`/edit-customer/${i.id}`)}>Edit</button>
                         <button className="delete-button" onClick={() => deleteCustomer()}>Delete</button></td>
                     </tr>
                 ))}

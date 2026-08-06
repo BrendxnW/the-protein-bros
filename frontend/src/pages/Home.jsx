@@ -1,8 +1,10 @@
 import {Link} from "react-router-dom";
+import "../index.css";
+
 function Home() {
     return (
         <>
-            <h1>Home page</h1>
+            <h1>Home Page</h1>
             <div className="homepageDescription">
                 <p>Database-driven storefront for The Protein Bros, an e-commerce
                 business selling protein powder.</p>

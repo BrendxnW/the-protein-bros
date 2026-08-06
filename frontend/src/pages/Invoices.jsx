@@ -1,57 +1,73 @@
-import {useNavigate, Link} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-
-function Invoices({backendURL}) {
+function Invoices({ backendURL }) {
     const navigate = useNavigate();
+
+    const invoicesList = [
+        {
+            id: 1,
+            date: "2025-01-14",
+            customer: "John Forman",
+            total: 104.97
+        },
+        {
+            id: 2,
+            date: "2025-04-02",
+            customer: "Dean Smith",
+            total: 39.99
+        },
+        {
+            id: 3,
+            date: "2025-07-19",
+            customer: "Bob Marley",
+            total: 99.98
+        },
+        {
+            id: 4,
+            date: "2025-10-08",
+            customer: "John Forman",
+            total: 59.99
+        }
+    ];
 
     return (
         <>
-        <h1>Invoices Page</h1>
+            <h1>Invoices Page</h1>
 
-        <button onClick={() => navigate("/add-invoice")}>Add New Invoice</button>
+            <button
+                className="add-button"
+                onClick={() => navigate("/add-invoice")}
+            >
+                Add New Invoice
+            </button>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Invoice Number</th>
-                    <th>Date</th>
-                    <th>Customer</th> {/* Name not ID here */}
-                    <th>Invoice Total</th>
-                    <th>Invoice Details</th> {/* Add link!! */}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>2025-01-14</td>
-                    <td>John Forman</td>
-                    <td>104.97</td>
-                    <td><Link to={'/invoice-details/1'}>View Details</Link></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>2025-04-02</td>
-                    <td>Dean Smith</td>
-                    <td>39.99</td>
-                    <td><Link to={'/invoice-details/2'}>View Details</Link></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>2025-07-19</td>
-                    <td>Bob Marley</td>
-                    <td>99.98</td>
-                    <td><Link to={'/invoice-details/3'}>View Details</Link></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>2025-10-08</td>
-                    <td>John Forman</td>
-                    <td>59.99</td>
-                    <td><Link to={'/invoice-details/4'}>View Details</Link></td>
-                </tr>
-            </tbody>
-        </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Invoice Number</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Invoice Total</th>
+                        <th>Invoice Details</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {invoicesList.map((invoice) => (
+                        <tr key={invoice.id}>
+                            <td>{invoice.id}</td>
+                            <td>{invoice.date}</td>
+                            <td>{invoice.customer}</td>
+                            <td>{invoice.total}</td>
+                            <td>
+                                <button className="gen-button" onClick={() => navigate(`/invoice-details/${invoice.id}`)}>View Details</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </>
-    )
+    );
 }
+
 export default Invoices;
