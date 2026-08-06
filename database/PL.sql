@@ -1,3 +1,48 @@
+-----------
+-- Views --
+-----------
+
+-- View Products
+drop view if exists view_products;
+CREATE VIEW view_products
+AS
+select productID as 'id', 
+    productName as "product", 
+    Brands.brandName as "brand", 
+    Flavors.flavorName as "flavor", 
+    ProteinTypes.proteinType as "protein", 
+    cost as "price", 
+    stockQuantity as "inventory" 
+from Products 
+    join Brands on Brands.brandID = Products.brandID 
+    join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID 
+    join Flavors on Flavors.flavorID = Products.flavorID
+order by id asc;
+
+
+
+
+-- View Customers
+drop view if exists view_customers;
+CREATE VIEW view_customers
+AS
+select customerID as "id",
+customerName as "name",
+phoneNumber as "phone",
+address as "address"
+from Customers
+order by customerID asc;
+
+
+
+
+
+
+
+
+
+
+
 -----------------------
 -- Insert Procedures --
 -----------------------

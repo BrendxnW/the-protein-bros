@@ -1,15 +1,22 @@
-import {useNavigate} from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import "../index.css";
 
 function Customers({backendURL}) {
     const navigate = useNavigate();
+    const [customers, setCustomers] = useState([]);
 
-    const customersList = [
-        {id: 1, name: "John Forman", phone: "206-555-0148", address: "123 Maple St"},
-        {id: 2, name: "Dean Smith", phone: "718-555-0192", address: "987 Cedar Ln"},
-        {id: 3, name: "Bob Marley", phone: "347-555-0176", address: "426 Pine Rd"},
-        {id: 4, name: "Sarah Chen", phone: "917-555-0133", address: "58 Birch Ave"}
-        ];
+    const loadCustomers = async() => {
+        const response = await fetch(`${backendURL}/customers`);
+        const data = await response.json();
+
+        setCustomers(data.customers);
+    };
+
+    useEffect(() => {
+        loadCustomers();
+    }, []);
+
 
     function deleteCustomer() {
         const confirm = window.confirm("Are you sure you want to delete this customer?");
@@ -32,7 +39,7 @@ function Customers({backendURL}) {
                 </tr>
             </thead>
             <tbody>
-                {customersList.map((i) => (
+                {customers.map((i) => (
                     <tr key={i.id}>
                         <td>{i.id}</td>
                         <td>{i.name}</td>

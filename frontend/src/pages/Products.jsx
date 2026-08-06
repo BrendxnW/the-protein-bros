@@ -9,10 +9,7 @@ function Products({ backendURL }) {
     const loadProducts = async() => {
         const response = await fetch(`${backendURL}/products`);
         const data = await response.json();
-
-        console.log(data);
-        console.log(Array.isArray(data.products));
-
+        
         setProducts(data.products);
     };
 

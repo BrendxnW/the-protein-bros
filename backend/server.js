@@ -23,18 +23,7 @@ const PORT = process.env.PORT;
 // Products
 app.get('/products', async (req, res) => {
     try {
-        const query1 = `select productID as 'id', \
-            productName as "product", \
-            Brands.brandName as "brand", \
-            Flavors.flavorName as "flavor", \
-            ProteinTypes.proteinType as "protein", \
-            cost as "price", \
-            stockQuantity as "inventory" \
-            from Products \
-            join Brands on Brands.brandID = Products.brandID \
-            join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID \
-            join Flavors on Flavors.flavorID = Products.flavorID
-            order by id asc;`
+        const query1 = 'select * from view_products';
         const [products] = await db.query(query1);
     
         res.status(200).json({ products });
@@ -45,6 +34,31 @@ app.get('/products', async (req, res) => {
     }
     
 });
+
+
+// Customers
+app.get('/customers', async (req,res) => {
+    try {
+        const [customers] = await db.query(`select * from view_customers`);
+        res.status(200).json({ customers });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
