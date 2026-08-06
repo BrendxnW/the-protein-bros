@@ -18,7 +18,7 @@ function CreateInvoice({backendURL}) {
     }
     return (
         <>
-        <h1>create new invoice</h1>
+        <h1>Create New Invoice</h1>
         <div>
         <label htmlFor="customerID">Customer: </label>
             <select id="customerID" value={customerID} onChange={(e) => setCustomerID(e.target.value)}>

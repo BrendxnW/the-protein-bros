@@ -1,6 +1,9 @@
-import {Link} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import "../index.css";
 
 function Suppliers({backendURL}) {
+    const navigate = useNavigate();
+
     const suppliersList = [
         {id: 1, supplier: "UNFI", contact: "John Doe", number: "206-444-1111", address: "123 Maple St"},
         {id: 2, supplier: "Europa Sports Products", contact: "Alex Smith", number: "718-333-2222", address: "987 Cedar Ln"},
@@ -27,7 +30,9 @@ function Suppliers({backendURL}) {
                         <td>{i.contact}</td>
                         <td>{i.number}</td>
                         <td>{i.address}</td>
-                        <td><Link to={`/supplier-products/${i.id}`}>Products</Link></td>
+                        <td>
+                            <button className="gen-button" onClick={() => navigate(`/supplier-products/${i.id}`)}>View Products</button>
+                        </td>
                     </tr>
                 ))}
             </tbody>

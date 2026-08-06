@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-
+import "../index.css";
 
 function Customers({backendURL}) {
     const navigate = useNavigate();
@@ -18,10 +18,9 @@ function Customers({backendURL}) {
     
     return (
         <>
+
         <h1>Customers Page</h1>
-
-        <button onClick={() => navigate("/add-customer")}>Add New Customer</button>
-
+        <button className="add-button" onClick={() => navigate("/add-customer")}>Add New Customer</button>
         <table>
             <thead>
                 <tr>
@@ -29,8 +28,7 @@ function Customers({backendURL}) {
                     <th>Name</th>
                     <th>Phone Number</th>
                     <th>Address</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,8 +38,8 @@ function Customers({backendURL}) {
                         <td>{i.name}</td>
                         <td>{i.phone}</td>
                         <td>{i.address}</td>
-                        <td><button onClick={() => navigate(`/edit-customer/${i.id}`)}>Edit</button></td>
-                        <td><button onClick={() => deleteCustomer()}>Delete</button></td>
+                        <td><button className="gen-button" onClick={() => navigate(`/edit-customer/${i.id}`)}>Edit</button>
+                        <button className="delete-button" onClick={() => deleteCustomer()}>Delete</button></td>
                     </tr>
                 ))}
             </tbody>
