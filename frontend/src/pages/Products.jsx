@@ -9,14 +9,12 @@ function Products({ backendURL }) {
     const loadProducts = async() => {
         const response = await fetch(`${backendURL}/products`);
         const data = await response.json();
-        
         setProducts(data.products);
     };
 
     useEffect(() => {
         loadProducts();
     }, []);
-
 
     function deleteProduct(productID) {
         const confirmed = window.confirm(

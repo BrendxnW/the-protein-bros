@@ -20,7 +20,7 @@ const PORT = process.env.PORT;
 
 // Route Handlers
 
-// Products
+// View all Products
 app.get('/products', async (req, res) => {
     try {
         const query1 = 'select * from view_products';
@@ -36,7 +36,7 @@ app.get('/products', async (req, res) => {
 });
 
 
-// Customers
+// View all Customers
 app.get('/customers', async (req,res) => {
     try {
         const [customers] = await db.query(`select * from view_customers`);
@@ -48,7 +48,7 @@ app.get('/customers', async (req,res) => {
 });
 
 
-// Suppliers
+// View all Suppliers
 app.get('/suppliers', async (req, res) => {
     try {
         const [suppliers] = await db.query(`select * from view_suppliers`);
@@ -59,7 +59,8 @@ app.get('/suppliers', async (req, res) => {
     }
 })
 
-// Brands
+
+// View all Brands
 app.get('/brands', async (req, res) => {
     try {
         const [brands] = await db.query(`select * from view_brands`);
@@ -71,6 +72,16 @@ app.get('/brands', async (req, res) => {
 })
 
 
+// View all Protein Types
+app.get('/proteintypes', async (req, res) => {
+    try {
+        const [proteins] = await db.query(`select * from view_proteins`);
+        res.status(200).json({ proteins });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
 
 
 

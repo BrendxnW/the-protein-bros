@@ -55,6 +55,14 @@ from Brands
 order by id asc;
 
 
+-- View Protein Types
+drop view if exists view_proteins;
+create view view_proteins
+as
+select proteinTypeID as 'id',
+    proteinType as 'type'
+from ProteinTypes
+order by id asc;
 
 
 
