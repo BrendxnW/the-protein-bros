@@ -94,7 +94,7 @@ function Products({ backendURL }) {
                             <td>${product.price.toFixed(2)}</td>
                             <td>{product.inventory}</td>
                             <td>
-                                <button className="gen-button" onClick={() => deleteProduct(product.id)}>Edit</button>
+                                <button className="gen-button" onClick={() => navigate(`/edit-product/${product.id}`)}>Edit</button>
                                 <button className="delete-button" onClick={() => deleteProduct(product.id)}>Delete</button>
                             </td>
                         </tr>
