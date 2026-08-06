@@ -41,13 +41,7 @@ function Home() {
 
             <div className="home-buttons">
                 {browsePages.map((page) => (
-                    <button
-                        key={page.path}
-                        className="gen-button"
-                        onClick={() => navigate(page.path)}
-                    >
-                        {page.name}
-                    </button>
+                    <button key={page.path} className="gen-button" onClick={() => navigate(page.path)}>{page.name}</button>
                 ))}
             </div>
 
@@ -55,8 +49,8 @@ function Home() {
             <p>Add a new product or create new invoices</p>
 
             <div className="home-buttons">
-                <buttonclassName="gen-button"onClick={() => navigate("/add-product")}>Add Product</button>
-                <buttonclassName="gen-button"onClick={() => navigate("/add-invoice")}>Create Invoice</button>
+                <button className="gen-button" onClick={() => navigate("/add-product")}>Add Product</button>
+                <button className="gen-button" onClick={() => navigate("/add-invoice")}>Create Invoice</button>
             </div>
 
             <div className="reset-section">
