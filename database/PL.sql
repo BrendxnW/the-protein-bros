@@ -65,6 +65,16 @@ from ProteinTypes
 order by id asc;
 
 
+-- View Flavors
+drop view if exists view_flavors;
+create view view_flavors
+as
+select flavorID as 'id',
+    flavorName as 'name'
+from Flavors
+order by id asc;
+
+
 
 
 

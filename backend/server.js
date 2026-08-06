@@ -84,6 +84,17 @@ app.get('/proteintypes', async (req, res) => {
 })
 
 
+// View all Flavors
+app.get('/flavors', async (req, res) => {
+    try {
+        const [flavors] = await db.query(`select * from view_flavors`);
+        res.status(200).json({ flavors });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
 
 
 
