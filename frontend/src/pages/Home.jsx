@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 
-function Home() {
+function Home({ backendURL }) {
     const navigate = useNavigate();
 
     const browsePages = [
