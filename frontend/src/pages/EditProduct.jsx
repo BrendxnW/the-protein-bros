@@ -40,7 +40,7 @@ function EditProduct({backendURL}) {
     
     return (
         <>
-        <h1>edit product page</h1>
+        <h1>Edit Product Page</h1>
         <div>
             <label htmlFor="productName">Product Name: </label>
             <input type="text" id="productName" value={productName}

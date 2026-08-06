@@ -41,8 +41,7 @@ function SupplierProducts({backendURL}) {
                     <th>Item ID</th>
                     <th>Product</th>
                     <th>WholeSale Cost</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,8 +50,10 @@ function SupplierProducts({backendURL}) {
                         <td>{i.id}</td>
                         <td>{i.product}</td>
                         <td>{i.price}</td>
-                        <td><button onClick={() => navigate(`/edit-product/${i.id}`)}>Edit</button></td>
-                        <td><button onClick={() => deleteProduct()}>Delete</button></td>
+                        <td>
+                            <button className="gen-button" onClick={() => navigate(`/edit-product/${i.id}`)}>Edit</button>
+                            <button className="delete-button" onClick={() => deleteProduct()}>Delete</button>
+                        </td>
                     </tr>
                 ))}
             </tbody>
