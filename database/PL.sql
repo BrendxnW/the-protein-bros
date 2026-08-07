@@ -103,10 +103,18 @@ from InvoiceDetails
 order by InvoiceDetails.invoiceDetailsID;
 
 
-
-
-
-
+-- View Supplier Products
+drop view if exists view_supplier_products;
+create view view_supplier_products
+as
+select Suppliers.supplierID as "supplierID",
+	Products.productID as "productid",
+    Products.productName as "product",
+    SupplierProducts.wholesalePrice as "price"
+from SupplierProducts
+    join Products on Products.productID = SupplierProducts.productID
+    join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
+order by productid asc;
 
 
 
