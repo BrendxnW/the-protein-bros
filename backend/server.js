@@ -118,6 +118,38 @@ app.get('/invoices', async (req, res) => {
 })
 
 
+// View Invoice Details
+app.get(`/invoice-details/:invoiceID`, async (req, res) => {
+    try {
+        const {invoiceID} = req.params;
+        const [invoiceDetails] = await db.query(`select * from view_invoice_details \
+            where invoiceID = ?`, [invoiceID]);
+        res.status(200).json({ invoiceDetails });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
+
+// View Supplier Products
+app.get(`/supplier-products/:supplierID`, async (req, res) => {
+    try {
+        const {supplierID} = req.params;
+        const [products] = await db.query(`select * from view_supplier_products \
+            where supplierID = ?`, [supplierID]);
+        const [supplier] = await db.query(`select supplierName from Suppliers where supplierID = ?`,
+            [supplierID]
+        );
+        res.status(200).json({ products, supplier });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
+
+
 
 
 

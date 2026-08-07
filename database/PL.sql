@@ -88,8 +88,33 @@ from Invoices
 order by id asc;
 
 
+-- View Invoice Details
+drop view if exists view_invoice_details;
+create view view_invoice_details
+as
+select InvoiceDetails.invoiceDetailsID as "id",
+    InvoiceDetails.invoiceID as "invoiceID",
+    Products.productName as "product",
+    InvoiceDetails.quantityOrdered as "quantity",
+    InvoiceDetails.priceAtSale as "price"
+from InvoiceDetails
+    join Invoices on Invoices.invoiceID = InvoiceDetails.invoiceID
+    join Products on Products.productID = InvoiceDetails.productID
+order by InvoiceDetails.invoiceDetailsID;
 
 
+-- View Supplier Products
+drop view if exists view_supplier_products;
+create view view_supplier_products
+as
+select Suppliers.supplierID as "supplierID",
+	Products.productID as "productid",
+    Products.productName as "product",
+    SupplierProducts.wholesalePrice as "price"
+from SupplierProducts
+    join Products on Products.productID = SupplierProducts.productID
+    join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
+order by productid asc;
 
 
 
