@@ -30,7 +30,8 @@ function SupplierProducts({backendURL}) {
         const check = window.confirm("Are you sure you want to delete this item?");
         if (check) {
             alert(`Product ${productID} would be deleted`);
-    };
+        }
+    }
 
     return (
         <>
