@@ -35,6 +35,16 @@ app.get('/products', async (req, res) => {
     
 });
 
+// Reset
+app.post('/reset', async (req, res) => {
+    try {
+        await db.query('CALL ResetDatabase();');
+        res.status(200).json({ message: "Database reset successfully." });
+    } catch (error) {
+        console.error("Error resetting database:", error);
+        res.status(500).send("An error occurred while resetting the database.");
+    }
+});
 
 // View all Customers
 app.get('/customers', async (req,res) => {
