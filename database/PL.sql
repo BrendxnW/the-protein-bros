@@ -119,8 +119,6 @@ order by productid asc;
 
 
 
-
-
 -----------------------
 -- Insert Procedures --
 -----------------------

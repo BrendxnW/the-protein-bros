@@ -149,7 +149,32 @@ app.get(`/supplier-products/:supplierID`, async (req, res) => {
 })
 
 
+// Add a new Invoice
+app.post(`/add-invoice`, async(req, res) => {
+    try {
+        const {customerID, totalCost, orderDate} = req.body;
 
+        await db.query(`call add_invoice(?, ?, ?, @invoiceID);`,
+            [customerID, totalCost, orderDate]);
+
+        const [response] = await db.query(`select @invoiceID as invoiceID;`);
+
+        res.status(200).json({invoiceID: response[0].invoiceID});
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+});
+
+app.get(`/add-invoice`, async(req, res) => {
+    try {
+        const [customers] = await db.query(`select customerID, customerName from Customers;`)
+        res.status(200).json({ customers })
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
 
 
 
