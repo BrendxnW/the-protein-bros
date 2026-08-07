@@ -1,11 +1,18 @@
+import { useState, useEffect } from 'react';
+import "../index.css";
+
 function Flavors({backendURL}) {
-    const flavorsList = [
-        {id: 1, name: "Vanilla"},
-        {id: 2, name: "Chocolate"},
-        {id: 3, name: "Cookies & Cream"},
-        {id: 4, name: "Salted Caramel"},
-        {id: 5, name: "Unflavored"}
-    ];
+    const [flavors, setFlavors] = useState([]);
+
+    const loadFlavors = async() => {
+        const response = await fetch(`${backendURL}/flavors`);
+        const data = await response.json();
+        setFlavors(data.flavors);
+    };
+
+    useEffect(() => {
+        loadFlavors();
+    }, []);
 
     return (
         <>
@@ -19,7 +26,7 @@ function Flavors({backendURL}) {
                 </tr>
             </thead>
             <tbody>
-                {flavorsList.map((i) => (
+                {flavors.map((i) => (
                     <tr key={i.id}>
                         <td>{i.id}</td>
                         <td>{i.name}</td>
