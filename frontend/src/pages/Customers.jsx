@@ -15,6 +15,7 @@ function Customers({backendURL}) {
         const confirmed = window.confirm("Are you sure you want to delete this customer?");
         if (confirmed) {
             alert(`Customer ${customerID} would be deleted`);
+        }
     }
     
     return (
