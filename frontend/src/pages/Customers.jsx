@@ -18,9 +18,11 @@ function Customers({backendURL}) {
     }, []);
 
 
-    function deleteCustomer() {
-        const confirm = window.confirm("Are you sure you want to delete this customer?");
-        if (confirm) {}
+    function deleteCustomer(customerID) {
+        const confirmed = window.confirm("Are you sure you want to delete this customer?");
+        if (confirmed) {
+            alert(`Customer ${customerID} would be deleted`);
+        }
     }
     
     return (

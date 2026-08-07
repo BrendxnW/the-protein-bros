@@ -18,10 +18,12 @@ function SupplierProducts({backendURL}) {
         loadProducts();
     }, [supplierID]);
 
-    function deleteProduct() {
+    function deleteProduct(productID) {
         const check = window.confirm("Are you sure you want to delete this item?");
-        if (check) {}
-    };
+        if (check) {
+            alert(`Product ${productID} would be deleted`);
+        }
+    }
 
     return (
         <>
@@ -44,7 +46,7 @@ function SupplierProducts({backendURL}) {
                         <td>{i.price}</td>
                         <td>
                             <button className="gen-button" onClick={() => navigate(`/edit-product/${i.id}`)}>Edit</button>
-                            <button className="delete-button" onClick={() => deleteProduct()}>Delete</button>
+                            <button className="delete-button" onClick={() => deleteProduct(i.id)}>Delete</button>
                         </td>
                     </tr>
                 ))}
