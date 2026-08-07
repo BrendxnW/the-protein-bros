@@ -88,6 +88,23 @@ from Invoices
 order by id asc;
 
 
+-- View Invoice Details
+drop view if exists view_invoice_details;
+create view view_invoice_details
+as
+select InvoiceDetails.invoiceDetailsID as "id",
+    InvoiceDetails.invoiceID as "invoiceID",
+    Products.productName as "product",
+    InvoiceDetails.quantityOrdered as "quantity",
+    InvoiceDetails.priceAtSale as "price"
+from InvoiceDetails
+    join Invoices on Invoices.invoiceID = InvoiceDetails.invoiceID
+    join Products on Products.productID = InvoiceDetails.productID
+order by InvoiceDetails.invoiceDetailsID;
+
+
+
+
 
 
 
