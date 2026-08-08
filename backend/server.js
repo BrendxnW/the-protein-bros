@@ -153,12 +153,9 @@ app.get(`/supplier-products/:supplierID`, async (req, res) => {
 app.post(`/add-invoice`, async(req, res) => {
     try {
         const {customerID, totalCost, orderDate} = req.body;
-
         await db.query(`call add_invoice(?, ?, ?, @invoiceID);`,
             [customerID, totalCost, orderDate]);
-
         const [response] = await db.query(`select @invoiceID as invoiceID;`);
-
         res.status(200).json({invoiceID: response[0].invoiceID});
     } catch (error) {
         console.error("Error executing queries:", error);
@@ -177,6 +174,33 @@ app.get(`/add-invoice`, async(req, res) => {
 })
 
 
+// Add a new Product
+app.post(`/add-product`, async(req, res) => {
+    try {
+        const {productName, cost, brandID, proteinTypeID, flavorID, stockQuantity} = req.body;
+        await db.query(`call add_product(?, ?, ?, ?, ?, ?, @productID);`, [
+            productName, cost, brandID, proteinTypeID, flavorID, stockQuantity
+        ]);
+        const [response] = await db.query(`select @productID as productID;`);
+        res.status(200).json({productID: response[0].productID});
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
+app.get(`/add-product`, async(req, res) => {
+    try {
+        const [brands] = await db.query(`select brandID, brandName from Brands;`);
+        const [proteins] = await db.query(`select proteinTypeID, proteinType from ProteinTypes;`);
+        const [flavors] = await db.query(`select flavorID, flavorName from Flavors;`);
+
+        res.status(200).json({ brands, proteins, flavors });
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
 
 
 
