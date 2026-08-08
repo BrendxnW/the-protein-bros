@@ -13,7 +13,6 @@ const cors = require('cors');
 app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json()); // this is needed for post requests
 
-
 const PORT = process.env.PORT;
 
 
@@ -177,12 +176,18 @@ app.get(`/add-invoice`, async(req, res) => {
 // Add a new Product
 app.post(`/add-product`, async(req, res) => {
     try {
+        // Destructure values from request body
         const {productName, cost, brandID, proteinTypeID, flavorID, stockQuantity} = req.body;
+        // Send query to database
         await db.query(`call add_product(?, ?, ?, ?, ?, ?, @productID);`, [
             productName, cost, brandID, proteinTypeID, flavorID, stockQuantity
         ]);
-        const [response] = await db.query(`select @productID as productID;`);
-        res.status(200).json({productID: response[0].productID});
+        // Store ID of newly created product
+        const [result] = await db.query(`select @productID as productID;`);
+        res.status(200).json({productID: result[0].productID});
+        console.log(`CREATE product: 
+                ID: ${result[0].productID}
+                NAME: ${productName}`);
     } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).send("An error occurred while executing the database queries.");
@@ -201,6 +206,37 @@ app.get(`/add-product`, async(req, res) => {
         res.status(500).send("An error occurred while executing the database queries.");
     }
 })
+
+
+// Add a new Customer
+app.post(`/add-customer`, async(req, res) => {
+    try {
+        const {customerName, phoneNumber, address} = req.body;
+        await db.query(`call add_customer(?, ?, ?, @customerID);`,
+            [customerName, phoneNumber, address]
+        );
+        const [result] = await db.query(`select @customerID as customerID;`);
+        res.status(200).json({productID: result[0].productID});
+        
+        console.log(`CREATE customer:
+                ID: ${result[0].productID}
+                NAME: ${customerName}`);
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
 
 
 

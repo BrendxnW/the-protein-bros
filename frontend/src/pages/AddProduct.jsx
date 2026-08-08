@@ -54,7 +54,7 @@ function AddProduct({backendURL}) {
     
     return (
         <>
-        <h1>Add a new product</h1>
+        <h1>Add New Product</h1>
         <div>
             <label htmlFor="productName">Product Name: </label>
             <input type="text" id="productName" value={productName}
