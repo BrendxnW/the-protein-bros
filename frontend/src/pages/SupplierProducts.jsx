@@ -26,19 +26,21 @@ function SupplierProducts({backendURL}) {
         loadProducts();
     }, [supplierID]);
 
-    function deleteProduct(productID) {
+    const deleteProduct = async(productID) => {
         const check = window.confirm("Are you sure you want to delete this item?");
         if (check) {
-            alert(`Product ${productID} would be deleted`);
-        }
-    };
-
-    // Control if the "Add Product" thing is open or not
-    function addIsVisible() {
-        if (isOpen == true) {
-            setIsOpen(false);
-        } else {
-            setIsOpen(true);
+            const deleteRelation = {supplierID, productID};
+            const response = await fetch(`${backendURL}/supplier-products/:id/delete`, {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify(deleteRelation)
+            });
+            if (response.status === 200) {
+                alert(`Product ${productID} was removed from ${supplier}.`);
+                await loadProducts();
+            } else {
+                alert(`Failed to delete product, status code ${response.status}.`);
+            };
         }
     };
 
@@ -54,19 +56,17 @@ function SupplierProducts({backendURL}) {
 
         if (response.status === 200) {
             alert("Added product");
-            loadProducts();
+            await loadProducts();
             setIsOpen(false);
         } else {
             alert(`Failed to add product, status code ${response.status}.`);
         }
-    };
-
-
+    }
 
     return (
         <>
-        <h1>{supplier} Products</h1>
-        <button className="add-button" onClick={() => addIsVisible()}>
+        <h1>{supplier}</h1>
+        <button className="add-button" onClick={() => setIsOpen(!isOpen)}>
              + Add Product
         </button>
 
@@ -116,8 +116,8 @@ function SupplierProducts({backendURL}) {
                         <td>{i.product}</td>
                         <td>{i.price}</td>
                         <td>
-                            <button className="gen-button" onClick={() => navigate(`/edit-product/${i.id}`)}>Edit</button>
-                            <button className="delete-button" onClick={() => deleteProduct(i.id)}>Delete</button>
+                            <button className="gen-button" onClick={() => navigate(`/edit-product/${i.productid}`)}>Edit</button>
+                            <button className="delete-button" onClick={() => deleteProduct(i.productid)}>Delete</button>
                         </td>
                     </tr>
                 ))}

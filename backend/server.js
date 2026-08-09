@@ -251,6 +251,23 @@ app.post(`/supplier-products/:id`, async (req, res) => {
 })
 
 
+// Delete a Product-Supplier relationship
+app.post(`/supplier-products/:id/delete`, async(req, res) => {
+    try {
+        const {supplierID, productID} = req.body;
+        await db.query(`call delete_supplier_product(?, ?);`, [supplierID, productID]);
+        
+        res.status(200).send("okay");
+
+        console.log(`DELETE supplierProducts
+                    SupplierID: ${supplierID},
+                    ProductID: ${productID}`);
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
+
 
 
 
