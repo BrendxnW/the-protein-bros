@@ -1,9 +1,15 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
 function AddProduct({backendURL}) {
     const navigate = useNavigate();
+    
+    // Receive from backend to populate drop-down
+    const [brands, setBrands] = useState([]);
+    const [proteins, setProteins] = useState([]);
+    const [flavors, setFlavors] = useState([]);
 
+    // Send to backend to create new product
     const [productName, setProductName] = useState("");
     const [cost, setCost] = useState("");
     const [brandID, setBrandID] = useState("");
@@ -11,39 +17,44 @@ function AddProduct({backendURL}) {
     const [flavorID, setFlavorID] = useState("");
     const [stockQuantity, setStockQuantity] = useState("");
 
+    const loadData = async() => {
+        const response = await fetch(`${backendURL}/add-product`);
+        const data = await response.json();
+        setBrands(data.brands);
+        setProteins(data.proteins);
+        setFlavors(data.flavors);
+    };
 
-    const brands = [
-        {id: 1, name: "Legion"},
-        {id: 2, name: "Optimum Nutrition"},
-        {id: 3, name: "Transparent Labs"},
-        {id: 4, name: "Dynamatize"},
-        {id: 5, name: "Garden of Life"}
-    ];
+    useEffect(() => {
+        loadData();
+    }, []);
 
-    const proteinTypes = [
-        {id: 1, type: "Whey"},
-        {id: 2, type: "Casein"}, 
-        {id: 3, type: "Pea"},
-        {id: 4, type: "Soy"},
-        {id: 5, type: "Egg"}
-    ];
-
-    const flavors = [
-        {id: 1, name: "Vanilla"},
-        {id: 2, name: "Chocolate"},
-        {id: 3, name: "Cookies & Cream"},
-        {id: 4, name: "Salted Caramel"},
-        {id: 5, name: "Unflavored"}
-    ];
-
-    function handleSubmit() {
+    const handleSubmit = async() => {
+        const newProduct = {
+            productName,
+            cost,
+            brandID,
+            proteinTypeID,
+            flavorID,
+            stockQuantity
+        };
+        const response = await fetch(`${backendURL}/add-product`, {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(newProduct)
+        });
+        if (response.status === 200) {
+            alert("Added new product");
+        } else {
+            alert(`Failed to add new product, status code ${response.status}.`);
+        }
         navigate("/products");
-    }
+    };
     
     
     return (
         <>
-        <h1>Add a new product</h1>
+        <h1>Add New Product</h1>
         <div>
             <label htmlFor="productName">Product Name: </label>
             <input type="text" id="productName" value={productName}
@@ -61,7 +72,9 @@ function AddProduct({backendURL}) {
             <select id="brandID" value={brandID} onChange={(e) => setBrandID(e.target.value)}>
                 <option value="">Select a brand</option>
                 {brands.map((b) => (
-                    <option key={b.id} value={b.id}>{b.name}</option>
+                    <option key={b.brandID} value={b.brandID}>
+                        {b.brandName}
+                    </option>
                 ))}
             </select>
         </div>
@@ -69,9 +82,11 @@ function AddProduct({backendURL}) {
         <div>
             <label htmlFor="proteinTypeID">Protein Type: </label>
             <select id="proteinTypeID" value={proteinTypeID} onChange={(e) => setProteinTypeID(e.target.value)}>
-                <option value="">Select a protein type</option>
-                {proteinTypes.map((p) => (
-                    <option key={p.id} value={p.id}>{p.type}</option>
+                <option value="">Select a protein</option>
+                {proteins.map((p) => (
+                    <option key={p.proteinTypeID} value={p.proteinTypeID}>
+                        {p.proteinType}
+                        </option>
                 ))}
             </select>
         </div>
@@ -81,7 +96,7 @@ function AddProduct({backendURL}) {
             <select id="flavorID" value={flavorID} onChange={(e) => setFlavorID(e.target.value)}>
                 <option value="">Select a flavor</option>
                 {flavors.map((f) => (
-                    <option key={f.id} value={f.id}>{f.name}</option>
+                    <option key={f.flavorID} value={f.flavorID}>{f.flavorName}</option>
                 ))}
             </select>
         </div>

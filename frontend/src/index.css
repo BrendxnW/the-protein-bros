@@ -64,6 +64,29 @@ a {
     margin-left: 16px;
 }
 
+form {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin-left: 50px;
+}
+
+form div {
+    display: flex;
+}
+
+form label {
+    width: 110px;
+    white-space: nowrap;
+    text-align: right;
+    margin-right: 10px;
+}
+
+form input {
+    width: 250px;
+    height: 20px;
+}
+
 .homepageDescription {
     margin-left: 32px;
 }
@@ -129,6 +152,20 @@ a {
     gap: 12px;
 }
 
+.submit-button {
+    margin: 0 auto;
+    background-color: #509319;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 6px 15px;
+}
+
+.submit-button:hover {
+    cursor: pointer;
+    background-color: #0D4F3A;
+}
+
 .copyright {
     margin-top: 400px;
     text-align: center;
@@ -136,3 +173,6 @@ a {
     font-size: 0.9rem;
 }
 
+.new-supplier-product {
+    margin: 10px;
+}

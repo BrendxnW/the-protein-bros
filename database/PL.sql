@@ -116,6 +116,13 @@ from SupplierProducts
     join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
 order by productid asc;
 
+-- View all Products and IDs only
+drop view if exists view_product_ids;
+create view view_product_ids
+as
+select productID, productName as "Product"
+    from Products
+order by Products.productID asc;
 
 
 
@@ -193,10 +200,66 @@ end //
 delimiter ;
 
 
+-- Add new Supplier-Product relationship
+DROP PROCEDURE IF EXISTS add_supplier_product;
+DELIMITER //
+
+CREATE PROCEDURE add_supplier_product(
+    in inputProductID int,
+    in inputSupplierID int,
+    in inputWholesale decimal(10,2),
+    out invoiceDetailsID int
+)
+BEGIN
+    insert into SupplierProducts (productID, supplierID, wholesalePrice)
+    values (inputProductID, inputSupplierID, inputWholesale);
+    set invoiceDetailsID = last_insert_id();
+END //
+
+DELIMITER ;
 
 
 
 
+
+
+
+
+
+-----------------------
 -- Update Procedures --
+-----------------------
 
+
+-----------------------
 -- Delete Procedures --
+-----------------------
+
+-- Delete a Supplier-Product relationship
+
+
+drop procedure if exists delete_supplier_product;
+delimiter //
+create procedure delete_supplier_product(
+    in inputSupplierID int,
+    in inputProductID int
+)
+BEGIN
+    declare error_message varchar(255);
+    declare exit handler for SQLEXCEPTION
+    BEGIN
+        rollback;
+    end;
+
+    start transaction;
+        delete from SupplierProducts
+        where supplierID = inputSupplierID and productID = inputProductID;
+
+        -- row_count() returns # of rows affected by previous statement
+        if row_count() = 0 then 
+            set error_message = concat('No matching record found');
+            signal sqlstate '45000' set message_text = error_message;
+        end if;
+    commit;
+END
+delimiter ;
