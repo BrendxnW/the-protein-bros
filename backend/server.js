@@ -135,12 +135,17 @@ app.get(`/invoice-details/:invoiceID`, async (req, res) => {
 app.get(`/supplier-products/:supplierID`, async (req, res) => {
     try {
         const {supplierID} = req.params;
+        // Obtain list of products by a given supplier
         const [products] = await db.query(`select * from view_supplier_products \
             where supplierID = ?`, [supplierID]);
+        // Obtain supplier name
         const [supplier] = await db.query(`select supplierName from Suppliers where supplierID = ?`,
             [supplierID]
         );
-        res.status(200).json({ products, supplier });
+        // Comprehensive list of all products on app
+        const [allProducts] = await db.query(`select * from view_product_ids;`);
+
+        res.status(200).json({ products, supplier, allProducts });
     } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).send("An error occurred while executing the database queries.");
@@ -227,6 +232,23 @@ app.post(`/add-customer`, async(req, res) => {
     }
 })
 
+
+// Add new Product-Supplier relationship
+app.post(`/supplier-products/:id`, async (req, res) => {
+    try {
+        const {addProductID, supplierID, addWholesale} = req.body;
+        await db.query(`call add_supplier_product(?, ?, ?, @relationID);`,
+            [addProductID, supplierID, addWholesale]
+        );
+        const [result] = await db.query(`select @relationID as relationID;`);
+        res.status(200).json({relationID: result[0].relationID});
+
+        console.log(`CREATE supplier-product`);
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).send("An error occurred while executing the database queries.");
+    }
+})
 
 
 

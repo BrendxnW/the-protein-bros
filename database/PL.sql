@@ -116,6 +116,15 @@ from SupplierProducts
     join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
 order by productid asc;
 
+-- View all Products and IDs only
+drop view if exists view_product_ids;
+create view view_product_ids
+as
+select productID, productName as "Product"
+    from Products
+order by Products.productID asc;
+
+
 
 
 
@@ -191,10 +200,38 @@ end //
 delimiter ;
 
 
+-- Add new Supplier-Product relationship
+DROP PROCEDURE IF EXISTS add_supplier_product;
+DELIMITER //
+
+CREATE PROCEDURE add_supplier_product(
+    in inputProductID int,
+    in inputSupplierID int,
+    in inputWholesale decimal(10,2),
+    out invoiceDetailsID int
+)
+BEGIN
+    insert into SupplierProducts (productID, supplierID, wholesalePrice)
+    values (inputProductID, inputSupplierID, inputWholesale);
+    set invoiceDetailsID = last_insert_id();
+END //
+
+DELIMITER ;
 
 
 
 
+
+
+
+
+
+-----------------------
 -- Update Procedures --
+-----------------------
 
+
+-----------------------
 -- Delete Procedures --
+-----------------------
+
