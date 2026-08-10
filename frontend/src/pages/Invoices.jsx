@@ -23,7 +23,7 @@ function Invoices({ backendURL }) {
                 className="add-button"
                 onClick={() => navigate("/add-invoice")}
             >
-                Add New Invoice
+                + Add Invoice
             </button>
 
             <table>

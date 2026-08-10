@@ -29,7 +29,7 @@ function Customers({backendURL}) {
         <>
 
         <h1>Customers Page</h1>
-        <button className="add-button" onClick={() => navigate("/add-customer")}>Add New Customer</button>
+        <button className="add-button" onClick={() => navigate("/add-customer")}>+ Add Customer</button>
         <table>
             <thead>
                 <tr>
