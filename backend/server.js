@@ -29,7 +29,7 @@ app.get('/products', async (req, res) => {
 
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
     
 });
@@ -41,7 +41,7 @@ app.post('/reset', async (req, res) => {
         res.status(200).json({ message: "Database reset successfully." });
     } catch (error) {
         console.error("Error resetting database:", error);
-        res.status(500).send("An error occurred while resetting the database.");
+        res.status(500).json({ error: "An error occurred while resetting the database." });
     }
 });
 
@@ -52,7 +52,7 @@ app.get('/customers', async (req,res) => {
         res.status(200).json({ customers });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 });
 
@@ -64,7 +64,7 @@ app.get('/suppliers', async (req, res) => {
         res.status(200).json({ suppliers });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -76,7 +76,7 @@ app.get('/brands', async (req, res) => {
         res.status(200).json({ brands });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -88,7 +88,7 @@ app.get('/proteintypes', async (req, res) => {
         res.status(200).json({ proteins });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -100,7 +100,7 @@ app.get('/flavors', async (req, res) => {
         res.status(200).json({ flavors });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -112,7 +112,7 @@ app.get('/invoices', async (req, res) => {
         res.status(200).json({ invoices });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -126,7 +126,7 @@ app.get(`/invoice-details/:invoiceID`, async (req, res) => {
         res.status(200).json({ invoiceDetails });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -148,7 +148,7 @@ app.get(`/supplier-products/:supplierID`, async (req, res) => {
         res.status(200).json({ products, supplier, allProducts });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -163,7 +163,7 @@ app.post(`/add-invoice`, async(req, res) => {
         res.status(200).json({invoiceID: response[0].invoiceID});
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 });
 
@@ -173,7 +173,7 @@ app.get(`/add-invoice`, async(req, res) => {
         res.status(200).json({ customers })
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -195,7 +195,7 @@ app.post(`/add-product`, async(req, res) => {
                 NAME: ${productName}`);
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -208,7 +208,7 @@ app.get(`/add-product`, async(req, res) => {
         res.status(200).json({ brands, proteins, flavors });
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -228,7 +228,7 @@ app.post(`/add-customer`, async(req, res) => {
                 NAME: ${customerName}`);
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -246,7 +246,7 @@ app.post(`/supplier-products/:id`, async (req, res) => {
         console.log(`CREATE supplier-product`);
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 
@@ -264,7 +264,7 @@ app.post(`/supplier-products/:id/delete`, async(req, res) => {
                     ProductID: ${productID}`);
     } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).send("An error occurred while executing the database queries.");
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
 

@@ -23,7 +23,8 @@ import Navigation from './components/Navigation';
 // Define the backend port and URL for API requests
 const URL = import.meta.env.VITE_URL;
 const backendPort = import.meta.env.VITE_PORT;  
-const backendURL = `${URL}:${backendPort}`;
+const backendURL = `${URL}`;
+
 
 function App() {
     return (
