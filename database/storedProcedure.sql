@@ -21,11 +21,11 @@ BEGIN
 
 	-- Recreate Tables
 	CREATE TABLE Customers (
-            customerID INT NOT NULL AUTO_INCREMENT,
+        customerID INT NOT NULL AUTO_INCREMENT,
 	    customerName VARCHAR(100) NOT NULL,
-            phoneNumber VARCHAR(20) UNIQUE NOT NULL,
-            address VARCHAR(100),
-            PRIMARY KEY (customerID)
+        phoneNumber VARCHAR(20) UNIQUE NOT NULL,
+        address VARCHAR(100),
+        PRIMARY KEY (customerID)
         );
 
 

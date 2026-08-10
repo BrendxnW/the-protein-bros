@@ -1,24 +1,30 @@
 import { useState, useEffect } from 'react';
-import {useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
-function InvoiceDetails({backendURL}) {
+function InvoiceDetails({ backendURL }) {
+    const navigate = useNavigate();
     const [details, setDetails] = useState([]);
-    const {invoiceID} = useParams();
-
-    const loadDetails = async() => {
-        const response = await fetch(`${backendURL}/invoice-details/${invoiceID}`);
-        const data = await response.json();
-        setDetails(data.invoiceDetails);
-    };
+    const { invoiceID } = useParams();
 
     useEffect(() => {
-        loadDetails();
-    }, [invoiceID]);
+        fetch(`${backendURL}/invoice-details/${invoiceID}`)
+            .then((response) => response.json())
+            .then((data) => setDetails(data.invoiceDetails));
+    }, [backendURL, invoiceID]);
 
     return (
         <>
         <h1>Invoice {invoiceID} Details</h1>
+        <div className="details-back">
+            <button
+                className="back-button"
+                type="button"
+                onClick={() => navigate("/invoices")}
+            >
+                ← Back to Invoices
+            </button>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -38,6 +44,7 @@ function InvoiceDetails({backendURL}) {
             </tbody>
         </table>
         </>
-    )
-};
+    );
+}
+
 export default InvoiceDetails;
