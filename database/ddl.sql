@@ -6,16 +6,25 @@
         Alec Ilstrup
 */
 
-SET foreign_key_checks = 0;
-SET autocommit = 0;
+SET FOREIGN_KEY_CHECKS = 0;
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
+
+DROP TABLE IF EXISTS SupplierProducts;
+DROP TABLE IF EXISTS InvoiceDetails;
+DROP TABLE IF EXISTS Invoices;
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Suppliers;
+DROP TABLE IF EXISTS Customers;
+DROP TABLE IF EXISTS Brands;
+DROP TABLE IF EXISTS ProteinTypes;
+DROP TABLE IF EXISTS Flavors;
 
 --
 -- Records the details of the customers we do business with, 
 -- stores their contact information for order association and communication. 
 --
 
-DROP TABLE IF EXISTS Customers;
 CREATE TABLE Customers (
     customerID INT NOT NULL AUTO_INCREMENT,
     customerName VARCHAR(100) NOT NULL,
@@ -29,7 +38,6 @@ CREATE TABLE Customers (
 -- the details of the order, and the total amount charged. 
 --
 
-DROP TABLE IF EXISTS Invoices;
 CREATE TABLE Invoices (
     invoiceID INT NOT NULL AUTO_INCREMENT,
     customerID INT NOT NULL,
@@ -47,7 +55,6 @@ CREATE TABLE Invoices (
 -- by their manufacturer or label. 
 --
 
-DROP TABLE IF EXISTS Brands;
 CREATE TABLE Brands (
     brandID INT NOT NULL AUTO_INCREMENT,
     brandName VARCHAR(255) UNIQUE NOT NULL,
@@ -58,7 +65,6 @@ CREATE TABLE Brands (
 -- Records the details about the type of protein used in each product 
 --
 
-DROP TABLE IF EXISTS ProteinTypes;
 CREATE TABLE ProteinTypes (
     proteinTypeID INT NOT NULL AUTO_INCREMENT,
     proteinType VARCHAR(100) UNIQUE NOT NULL,
@@ -70,7 +76,6 @@ CREATE TABLE ProteinTypes (
 -- grouped and identified by taste.  
 --
 
-DROP TABLE IF EXISTS Flavors;
 CREATE TABLE Flavors (
     flavorID INT NOT NULL AUTO_INCREMENT,
     flavorName VARCHAR(100) UNIQUE NOT NULL,
@@ -82,7 +87,6 @@ CREATE TABLE Flavors (
 -- brand, protein type and flavors. 
 --
 
-DROP TABLE IF EXISTS Products;
 CREATE TABLE Products (
     productID INT NOT NULL AUTO_INCREMENT,
     productName VARCHAR(100) NOT NULL,
@@ -112,7 +116,6 @@ CREATE TABLE Products (
 -- quantity on a given invoice. 
 --
 
-DROP TABLE IF EXISTS InvoiceDetails;
 CREATE TABLE InvoiceDetails (
     invoiceDetailsID INT NOT NULL AUTO_INCREMENT,
     quantityOrdered INT NOT NULL,
@@ -124,7 +127,7 @@ CREATE TABLE InvoiceDetails (
     FOREIGN KEY (invoiceID)
         REFERENCES Invoices(invoiceID)
         ON UPDATE CASCADE
-        ON DELETE cascade,
+        ON DELETE CASCADE,
     FOREIGN KEY (productID)
         REFERENCES Products(productID)
         ON UPDATE CASCADE
@@ -132,10 +135,9 @@ CREATE TABLE InvoiceDetails (
 );
 
 --
--- Records information about the suppliers from whom the company purchases products for its inventory. 
+-- Records information about the suppliers from whom the company purchases products for its inventory.
 --
 
-DROP TABLE IF EXISTS Suppliers;
 CREATE TABLE Suppliers (
     supplierID INT NOT NULL AUTO_INCREMENT,
     supplierName VARCHAR(100) NOT NULL,
@@ -150,7 +152,6 @@ CREATE TABLE Suppliers (
 -- resolves the M:N relationship between Suppliers and Products. 
 --
 
-DROP TABLE IF EXISTS SupplierProducts;
 CREATE TABLE SupplierProducts (
     supplierProductID INT NOT NULL AUTO_INCREMENT,
     wholesalePrice DECIMAL(10,2) NOT NULL,
@@ -202,41 +203,41 @@ VALUES
     (
         'Gold Standard 100% Whey',
         34.99, 
-        (select brandID from Brands where brandName = "Optimum Nutrition"),
-        (select proteinTypeID from ProteinTypes where proteinType = "Whey"),
-        (select flavorID from Flavors where flavorName = "Chocolate"),
+        (SELECT brandID FROM Brands WHERE brandName = "Optimum Nutrition"),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Whey"),
+        (SELECT flavorID FROM Flavors WHERE flavorName = "Chocolate"),
         240
     ),
     (
         'ISO100',
         39.99,
-        (select brandID from Brands where brandName = "Dynamatize"),
-        (select proteinTypeID from ProteinTypes where proteinType = "Whey"),
-        (select flavorID from Flavors where flavorName = "Cookies & Cream"),
+        (SELECT brandID FROM Brands WHERE brandName = "Dynamatize"),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Whey"),
+        (SELECT flavorID FROM Flavors WHERE flavorName = "Cookies & Cream"),
         180
     ),
     (
         'Sport Plant-Based Protein',
         34.99,
-        (select brandID from Brands where brandName = "Garden of Life"),
-        (select proteinTypeID from ProteinTypes where proteinType = "Pea"),
-        (select flavorID from Flavors where flavorName = "Vanilla"),
+        (SELECT brandID FROM Brands WHERE brandName = "Garden of Life"),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Pea"),
+        (SELECT flavorID FROM Flavors WHERE flavorName = "Vanilla"),
         95
     ),
     (
         'Casein+',
         64.99,
-        (select brandID from Brands where brandName = "Legion"),
-        (select proteinTypeID from ProteinTypes where proteinType = "Casein"),
-        (select flavorID from Flavors where flavorName = "Chocolate"),
+        (SELECT brandID FROM Brands WHERE brandName = "Legion"),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Casein"),
+        (SELECT flavorID FROM Flavors WHERE flavorName = "Chocolate"),
         60
     ),
     (
         'Grass-Fed Whey Protein Isolate',
         59.99,
-        (select brandID from Brands where brandName = "Transparent Labs"),
-        (select proteinTypeID from ProteinTypes where proteinType = "Whey"),
-        (select flavorID from Flavors where flavorName = "Salted Caramel"),
+        (SELECT brandID FROM Brands WHERE brandName = "Transparent Labs"),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Whey"),
+        (SELECT flavorID FROM Flavors WHERE flavorName = "Salted Caramel"),
         120
     );
 
@@ -250,33 +251,33 @@ INSERT INTO SupplierProducts (wholesalePrice, productID, supplierID)
 VALUES
     (
         41.99,
-        (select productID from Products where productName = "Grass-Fed Whey Protein Isolate"),
-        (select supplierID from Suppliers where supplierName = "Europa Sports Products")
+        (SELECT productID FROM Products WHERE productName = "Grass-Fed Whey Protein Isolate"),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = "Europa Sports Products")
     ),
     (
         45.49,
-        (select productID from Products where productName = "Casein+"),
-        (select supplierID from Suppliers where supplierName = "Europa Sports Products")
+        (SELECT productID FROM Products WHERE productName = "Casein+"),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = "Europa Sports Products")
     ),
     (
         24.49,
-        (select productID from Products where productName = "Sport Plant-Based Protein"),
-        (select supplierID from Suppliers where supplierName = "Muscle Foods USA")
+        (SELECT productID FROM Products WHERE productName = "Sport Plant-Based Protein"),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = "Muscle Foods USA")
     ),
     (
         27.99,
-        (select productID from Products where productName = "ISO100"),
-        (select supplierID from Suppliers where supplierName = "UNFI")
+        (SELECT productID FROM Products WHERE productName = "ISO100"),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = "UNFI")
     ),
     (
         27.99,
-        (select productID from Products where productName = "Gold Standard 100% Whey"),
-        (select supplierID from Suppliers where supplierName = "Muscle Foods USA")
+        (SELECT productID FROM Products WHERE productName = "Gold Standard 100% Whey"),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = "Muscle Foods USA")
     ),
     (
         28.49,
-        (select productID from Products where productName = "Gold Standard 100% Whey"),
-        (select supplierID from Suppliers where supplierName = "UNFI")
+        (SELECT productID FROM Products WHERE productName = "Gold Standard 100% Whey"),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = "UNFI")
     );
 
 
@@ -290,22 +291,22 @@ VALUES
 INSERT INTO Invoices (customerID, totalCost, orderDate)
 VALUES
     (
-        (select customerID from Customers where customerName = "John Forman"),
+        (SELECT customerID FROM Customers WHERE customerName = "John Forman"),
         104.97,
         '2025-01-14'
     ),
     (
-        (select customerID from Customers where customerName = "Dean Smith"),
+        (SELECT customerID FROM Customers WHERE customerName = "Dean Smith"),
         39.99,
         '2025-04-02'
     ),
     (
-        (select customerID from Customers where customerName = "Bob Marley"),
+        (SELECT customerID FROM Customers WHERE customerName = "Bob Marley"),
         99.98,
         '2025-07-19'
     ),
     (
-        (select customerID from Customers where customerName = "John Forman"),
+        (SELECT customerID FROM Customers WHERE customerName = "John Forman"),
         59.99,
         '2025-10-08'
     );
@@ -315,39 +316,39 @@ VALUES
     (
         2,
         1,
-        (select productID from Products where productName = "Gold Standard 100% Whey"),
+        (SELECT productID FROM Products WHERE productName = "Gold Standard 100% Whey"),
         34.99
     ),
     (
         1,
         1,
-        (select productID from Products where productName = "Sport Plant-Based Protein"),
+        (SELECT productID FROM Products WHERE productName = "Sport Plant-Based Protein"),
         34.99
     ),
     (
         1,
         2,
-        (select productID from Products where productName = "ISO100"),
+        (SELECT productID FROM Products WHERE productName = "ISO100"),
         39.99
     ),
     (
         1,
         3,
-        (select productID from Products where productName = "Casein+"),
+        (SELECT productID FROM Products WHERE productName = "Casein+"),
         64.99
     ),
     (
         1,
         3,
-        (select productID from Products where productName = "Sport Plant-Based Protein"),
+        (SELECT productID FROM Products WHERE productName = "Sport Plant-Based Protein"),
         34.99
     ),
     (
         1,
         4,
-        (select productID from Products where productName = "Grass-Fed Whey Protein Isolate"),
+        (SELECT productID FROM Products WHERE productName = "Grass-Fed Whey Protein Isolate"),
         59.99
     );
 
-SET foreign_key_checks = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 COMMIT;

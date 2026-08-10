@@ -1,151 +1,142 @@
------------
+-- Active: 1785711094292@@127.0.0.1@3306@protein_bros
+-- -----------
 -- Views --
------------
+-- -----------
+
+DROP VIEW IF EXISTS view_products;
+DROP VIEW IF EXISTS view_customers;
+DROP VIEW IF EXISTS view_suppliers;
+DROP VIEW IF EXISTS view_brands;
+DROP VIEW IF EXISTS view_proteins;
+DROP VIEW IF EXISTS view_flavors;
+DROP VIEW IF EXISTS view_invoices;
+DROP VIEW IF EXISTS view_invoice_details;
+DROP VIEW IF EXISTS view_supplier_products;
+DROP VIEW IF EXISTS view_product_ids;
 
 -- View Products
-drop view if exists view_products;
 CREATE VIEW view_products
 AS
-select productID as 'id', 
-    productName as "product", 
-    Brands.brandName as "brand", 
-    Flavors.flavorName as "flavor", 
-    ProteinTypes.proteinType as "protein", 
-    cost as "price", 
-    stockQuantity as "inventory" 
-from Products 
-    join Brands on Brands.brandID = Products.brandID 
-    join ProteinTypes on ProteinTypes.proteinTypeID = Products.proteinTypeID 
-    join Flavors on Flavors.flavorID = Products.flavorID
-order by id asc;
-
+SELECT productID AS id,
+    productName AS product,
+    Brands.brandName AS brand,
+    Flavors.flavorName AS flavor,
+    ProteinTypes.proteinType AS protein,
+    cost AS price,
+    stockQuantity AS inventory
+FROM Products
+    JOIN Brands ON Brands.brandID = Products.brandID
+    JOIN ProteinTypes ON ProteinTypes.proteinTypeID = Products.proteinTypeID
+    JOIN Flavors ON Flavors.flavorID = Products.flavorID
+ORDER BY id ASC;
 
 -- View Customers
-drop view if exists view_customers;
 CREATE VIEW view_customers
 AS
-select customerID as "id",
-    customerName as "name",
-    phoneNumber as "phone",
-    address as "address"
-from Customers
-order by customerID asc;
-
+SELECT customerID AS id,
+    customerName AS name,
+    phoneNumber AS phone,
+    address AS address
+FROM Customers
+ORDER BY customerID ASC;
 
 -- View Suppliers
-drop view if exists view_suppliers;
-create view view_suppliers
-as
-select supplierID as "id",
-    supplierName as "supplier",
-    contactName as "contact",
-    supplierPhoneNumber as "number",
-    supplierAddress as "address"
-from Suppliers
-order by supplier asc;
-
+CREATE VIEW view_suppliers
+AS
+SELECT supplierID AS id,
+    supplierName AS supplier,
+    contactName AS contact,
+    supplierPhoneNumber AS number,
+    supplierAddress AS address
+FROM Suppliers
+ORDER BY supplier ASC;
 
 -- View Brands
-drop view if exists view_brands;
-create view view_brands
-as
-select brandID as 'id',
-    brandName as 'name'
-from Brands
-order by id asc;
-
+CREATE VIEW view_brands
+AS
+SELECT brandID AS id,
+    brandName AS name
+FROM Brands
+ORDER BY id ASC;
 
 -- View Protein Types
-drop view if exists view_proteins;
-create view view_proteins
-as
-select proteinTypeID as 'id',
-    proteinType as 'type'
-from ProteinTypes
-order by id asc;
-
+CREATE VIEW view_proteins
+AS
+SELECT proteinTypeID AS id,
+    proteinType AS type
+FROM ProteinTypes
+ORDER BY id ASC;
 
 -- View Flavors
-drop view if exists view_flavors;
-create view view_flavors
-as
-select flavorID as 'id',
-    flavorName as 'name'
-from Flavors
-order by id asc;
-
+CREATE VIEW view_flavors
+AS
+SELECT flavorID AS id,
+    flavorName AS name
+FROM Flavors
+ORDER BY id ASC;
 
 -- View Invoices
-drop view if exists view_invoices;
-create view view_invoices
-as
-select Invoices.invoiceID as "id",
-    Invoices.orderDate as "date",
-    Customers.customerName as "customer",
-    Invoices.totalCost as "total"
-from Invoices
-    join Customers on Customers.customerID = Invoices.customerID
-order by id asc;
-
+CREATE VIEW view_invoices
+AS
+SELECT Invoices.invoiceID AS id,
+    Invoices.orderDate AS date,
+    Customers.customerName AS customer,
+    Invoices.totalCost AS total
+FROM Invoices
+    JOIN Customers ON Customers.customerID = Invoices.customerID
+ORDER BY id ASC;
 
 -- View Invoice Details
-drop view if exists view_invoice_details;
-create view view_invoice_details
-as
-select InvoiceDetails.invoiceDetailsID as "id",
-    InvoiceDetails.invoiceID as "invoiceID",
-    Products.productName as "product",
-    InvoiceDetails.quantityOrdered as "quantity",
-    InvoiceDetails.priceAtSale as "price"
-from InvoiceDetails
-    join Invoices on Invoices.invoiceID = InvoiceDetails.invoiceID
-    join Products on Products.productID = InvoiceDetails.productID
-order by InvoiceDetails.invoiceDetailsID;
-
+CREATE VIEW view_invoice_details
+AS
+SELECT InvoiceDetails.invoiceDetailsID AS id,
+    InvoiceDetails.invoiceID AS invoiceID,
+    Products.productName AS product,
+    InvoiceDetails.quantityOrdered AS quantity,
+    InvoiceDetails.priceAtSale AS price
+FROM InvoiceDetails
+    JOIN Invoices ON Invoices.invoiceID = InvoiceDetails.invoiceID
+    JOIN Products ON Products.productID = InvoiceDetails.productID
+ORDER BY InvoiceDetails.invoiceDetailsID;
 
 -- View Supplier Products
-drop view if exists view_supplier_products;
-create view view_supplier_products
-as
-select Suppliers.supplierID as "supplierID",
-	Products.productID as "productid",
-    Products.productName as "product",
-    SupplierProducts.wholesalePrice as "price"
-from SupplierProducts
-    join Products on Products.productID = SupplierProducts.productID
-    join Suppliers on Suppliers.supplierID = SupplierProducts.supplierID
-order by productid asc;
+CREATE VIEW view_supplier_products
+AS
+SELECT Suppliers.supplierID AS supplierID,
+    Products.productID AS productid,
+    Products.productName AS product,
+    SupplierProducts.wholesalePrice AS price
+FROM SupplierProducts
+    JOIN Products ON Products.productID = SupplierProducts.productID
+    JOIN Suppliers ON Suppliers.supplierID = SupplierProducts.supplierID
+ORDER BY productid ASC;
 
 -- View all Products and IDs only
-drop view if exists view_product_ids;
-create view view_product_ids
-as
-select productID, productName as "Product"
-    from Products
-order by Products.productID asc;
+CREATE VIEW view_product_ids
+AS
+SELECT productID, productName AS Product
+FROM Products
+ORDER BY Products.productID ASC;
 
-
-
-
-
------------------------
+-- -----------------------
 -- Insert Procedures --
------------------------
+-- -----------------------
 
 -- Add a new Product
-drop procedure if exists add_product;
-delimiter //
-create procedure add_product(
-    in newProductName varchar(100),
-    in newCost decimal(10,2),
-    in newBrandID int,
-    in newProteinTypeID int,
-    in newFlavorID int,
-    in newStockQuantity int,
-    out productID int
+DROP PROCEDURE IF EXISTS add_product;
+DELIMITER //
+
+CREATE PROCEDURE add_product(
+    IN newProductName VARCHAR(100),
+    IN newCost DECIMAL(10,2),
+    IN newBrandID INT,
+    IN newProteinTypeID INT,
+    IN newFlavorID INT,
+    IN newStockQuantity INT,
+    OUT productID INT
 )
-begin
-    insert into Products (
+BEGIN
+    INSERT INTO Products (
         productName,
         cost,
         brandID,
@@ -153,7 +144,7 @@ begin
         flavorID,
         stockQuantity
     )
-    values (
+    VALUES (
         newProductName,
         newCost,
         newBrandID,
@@ -161,105 +152,98 @@ begin
         newFlavorID,
         newStockQuantity
     );
-    set productID = last_insert_id();
-end //
-delimiter ; 
+    SET productID = LAST_INSERT_ID();
+END //
 
+DELIMITER ;
 
 -- Add new Customer
-drop procedure if exists add_customer;
-delimiter //
-create procedure add_customer(
-    in newCustomerName varchar(100),
-    in newPhoneNumber varchar(20),
-    in newAddress varchar(100),
-    out customerID int
-)
-begin
-    insert into Customers(customerName, phoneNumber, address)
-    values (newCustomerName, newPhoneNumber, newAddress);
-    set customerID = last_insert_id();
-end //
-delimiter ;
+DROP PROCEDURE IF EXISTS add_customer;
+DELIMITER //
 
+CREATE PROCEDURE add_customer(
+    IN newCustomerName VARCHAR(100),
+    IN newPhoneNumber VARCHAR(20),
+    IN newAddress VARCHAR(100),
+    OUT customerID INT
+)
+BEGIN
+    INSERT INTO Customers (customerName, phoneNumber, address)
+    VALUES (newCustomerName, newPhoneNumber, newAddress);
+    SET customerID = LAST_INSERT_ID();
+END //
+
+DELIMITER ;
 
 -- Add new Invoice
-drop procedure if exists add_invoice;
-delimiter //
-create procedure add_invoice(
-    in newCustomerID int,
-    in newTotalCost decimal(10,2),
-    in newOrderDate date,
-    out invoiceID int
-)
-begin
-    insert into Invoices(customerID, totalCost, orderDate)
-    values (newCustomerID, newTotalCost, newOrderDate);
-    set invoiceID = last_insert_id();
-end //
-delimiter ;
+DROP PROCEDURE IF EXISTS add_invoice;
+DELIMITER //
 
+CREATE PROCEDURE add_invoice(
+    IN newCustomerID INT,
+    IN newTotalCost DECIMAL(10,2),
+    IN newOrderDate DATE,
+    OUT invoiceID INT
+)
+BEGIN
+    INSERT INTO Invoices (customerID, totalCost, orderDate)
+    VALUES (newCustomerID, newTotalCost, newOrderDate);
+    SET invoiceID = LAST_INSERT_ID();
+END //
+
+DELIMITER ;
 
 -- Add new Supplier-Product relationship
 DROP PROCEDURE IF EXISTS add_supplier_product;
 DELIMITER //
 
 CREATE PROCEDURE add_supplier_product(
-    in inputProductID int,
-    in inputSupplierID int,
-    in inputWholesale decimal(10,2),
-    out invoiceDetailsID int
+    IN inputProductID INT,
+    IN inputSupplierID INT,
+    IN inputWholesale DECIMAL(10,2),
+    OUT invoiceDetailsID INT
 )
 BEGIN
-    insert into SupplierProducts (productID, supplierID, wholesalePrice)
-    values (inputProductID, inputSupplierID, inputWholesale);
-    set invoiceDetailsID = last_insert_id();
+    INSERT INTO SupplierProducts (productID, supplierID, wholesalePrice)
+    VALUES (inputProductID, inputSupplierID, inputWholesale);
+    SET invoiceDetailsID = LAST_INSERT_ID();
 END //
 
 DELIMITER ;
 
-
-
-
-
-
-
-
-
------------------------
+-- -----------------------
 -- Update Procedures --
------------------------
+-- -----------------------
 
-
------------------------
+-- -----------------------
 -- Delete Procedures --
------------------------
+-- -----------------------
 
 -- Delete a Supplier-Product relationship
+DROP PROCEDURE IF EXISTS delete_supplier_product;
+DELIMITER //
 
-
-drop procedure if exists delete_supplier_product;
-delimiter //
-create procedure delete_supplier_product(
-    in inputSupplierID int,
-    in inputProductID int
+CREATE PROCEDURE delete_supplier_product(
+    IN inputSupplierID INT,
+    IN inputProductID INT
 )
 BEGIN
-    declare error_message varchar(255);
-    declare exit handler for SQLEXCEPTION
+    DECLARE error_message VARCHAR(255);
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
-        rollback;
-    end;
+        ROLLBACK;
+    END;
 
-    start transaction;
-        delete from SupplierProducts
-        where supplierID = inputSupplierID and productID = inputProductID;
+    START TRANSACTION;
+        DELETE FROM SupplierProducts
+        WHERE supplierID = inputSupplierID AND productID = inputProductID;
 
-        -- row_count() returns # of rows affected by previous statement
-        if row_count() = 0 then 
-            set error_message = concat('No matching record found');
-            signal sqlstate '45000' set message_text = error_message;
-        end if;
-    commit;
-END
-delimiter ;
+        -- ROW_COUNT() returns the number of rows affected by the previous statement.
+        IF ROW_COUNT() = 0 THEN
+            SET error_message = 'No matching record found';
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = error_message;
+        END IF;
+    COMMIT;
+END //
+
+DELIMITER ;
