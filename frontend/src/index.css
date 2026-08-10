@@ -197,6 +197,10 @@ form input {
     color: #4C1D95;
 }
 
+.details-back {
+    margin: 24px 0 0 32px;
+}
+
 .form-card {
     overflow: hidden;
     background: white;

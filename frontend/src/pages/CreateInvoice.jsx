@@ -1,31 +1,30 @@
-import {useState, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-function CreateInvoice({backendURL}) {
+function CreateInvoice({ backendURL }) {
     const navigate = useNavigate();
     const [customers, setCustomers] = useState([]);
     const [customerID, setCustomerID] = useState("");
     const [orderDate, setOrderDate] = useState("");
     const [totalCost, setTotalCost] = useState("");
-    // populate from customers table later
 
-    const loadCustomers = async() => {
-        const response = await fetch(`${backendURL}/add-invoice`);
-        const data = await response.json();
-        setCustomers(data.customers);
-    };
+    useEffect(() => {
+        fetch(`${backendURL}/add-invoice`)
+            .then((response) => response.json())
+            .then((data) => setCustomers(data.customers));
+    }, [backendURL]);
 
-    useEffect(() => {loadCustomers();}, []);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    const handleSubmit = async() => {
-        const newInvoice = {customerID, orderDate, totalCost};
+        const newInvoice = { customerID, orderDate, totalCost };
         const response = await fetch(`${backendURL}/add-invoice`, {
-            method: `POST`,
-            headers: {'Content-type': 'application/json'},
+            method: "POST",
+            headers: { "Content-type": "application/json" },
             body: JSON.stringify(newInvoice)
         });
         if (response.status === 200) {
-            alert("Added new Invoice");
+            alert("Added new invoice");
         } else {
             alert(`Failed to create invoice, status code ${response.status}.`);
         }
@@ -33,36 +32,82 @@ function CreateInvoice({backendURL}) {
     };
 
     return (
-        <>
-        <h1>Create New Invoice</h1>
-        <div>
-        <label htmlFor="customerID">Customer: </label>
-            <select value={customerID} onChange={(e) => setCustomerID(e.target.value)}>
-                <option value=''>Select a customer</option>
-                {customers.map((customer) => (
-                    <option key={customer.customerID} value={customer.customerID}>
-                        {customer.customerName}
-                    </option>
-                ))}
-            </select>
-        </div>
+        <main className="form-page">
+            <button
+                className="back-button"
+                type="button"
+                onClick={() => navigate("/invoices")}
+            >
+                ← Back to Invoices
+            </button>
 
-        <div>
-            <label htmlFor="orderDate">Order Date: </label>
-            <input type="date" id="orderDate" value={orderDate}
-                onChange={(e) => setOrderDate(e.target.value)} />
-        </div>
+            <section className="form-card">
+                <div className="form-card-header">
+                    <h1>Create New Invoice</h1>
+                    <p>Select a customer and enter the invoice details below.</p>
+                </div>
 
-        <div>
-            <label htmlFor="totalCost">Invoice Total: </label>
-            <input type="number" step="0.01" id="totalCost" value={totalCost}
-                onChange={(e) => setTotalCost(e.target.value)} />
-        </div>
+                <form className="customer-form product-form" onSubmit={handleSubmit}>
+                    <div className="form-field">
+                        <label htmlFor="customerID">Customer</label>
+                        <select
+                            id="customerID"
+                            value={customerID}
+                            required
+                            onChange={(e) => setCustomerID(e.target.value)}
+                        >
+                            <option value="">Select a customer</option>
+                            {customers.map((customer) => (
+                                <option key={customer.customerID} value={customer.customerID}>
+                                    {customer.customerName}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-        <div>
-            <button onClick={() => handleSubmit()}>Create Invoice</button>
-        </div>
-        </>
-    )
-};
+                    <div className="product-form-row">
+                        <div className="form-field">
+                            <label htmlFor="orderDate">Order Date</label>
+                            <input
+                                type="date"
+                                id="orderDate"
+                                value={orderDate}
+                                required
+                                onChange={(e) => setOrderDate(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="form-field">
+                            <label htmlFor="totalCost">Invoice Total</label>
+                            <input
+                                type="number"
+                                min="0"
+                                step="0.01"
+                                id="totalCost"
+                                value={totalCost}
+                                placeholder="0.00"
+                                required
+                                onChange={(e) => setTotalCost(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="form-actions">
+                        <button
+                            className="cancel-button"
+                            type="button"
+                            onClick={() => navigate("/invoices")}
+                        >
+                            Cancel
+                        </button>
+                        <button className="submit-button" type="submit">
+                            Create Invoice
+                        </button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    );
+}
+
 export default CreateInvoice;
