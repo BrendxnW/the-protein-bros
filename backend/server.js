@@ -199,6 +199,7 @@ app.post(`/add-product`, async(req, res) => {
     }
 })
 
+// Get info needed to add a new product
 app.get(`/add-product`, async(req, res) => {
     try {
         const [brands] = await db.query(`select brandID, brandName from Brands;`);
@@ -287,6 +288,31 @@ app.post(`/supplier-products/:id/update`, async(req, res) => {
         res.status(500).json({ error: "An error occurred while executing the database queries." });
     }
 })
+
+
+// Update an existing Product
+app.post(`/edit-product/:id/update`, async(req, res) => {
+    try {} catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
+    }
+})
+
+
+// Get the information of a single Product to populate the edit fields
+app.get(`/edit-product/:id`, async(req, res) => {
+    try {
+        const {id} = req.params;
+        const [product] = await db.query(`select * from view_product where productID = ?;`, [id])
+        res.status(200).json({product});
+    } catch(error) {
+        console.error("Error executing queries:", error);
+        res.status(500).json({error: "An error occurred while executing the database queries."});
+    }
+})
+
+
+
 
 
 

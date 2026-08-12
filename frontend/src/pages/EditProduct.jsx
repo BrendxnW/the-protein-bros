@@ -1,48 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-function EditProduct() {
+function EditProduct({backendURL}) {
     const navigate = useNavigate();
     const { productID } = useParams();
 
-    const [productName, setProductName] = useState("Gold Standard 100% Whey");
-    const [cost, setCost] = useState("34.99");
-    const [brandID, setBrandID] = useState("2");
-    const [proteinTypeID, setProteinTypeID] = useState("1");
-    const [flavorID, setFlavorID] = useState("2");
-    const [stockQuantity, setStockQuantity] = useState("50");
+    // To be sent to backend to edit an existing product
+    const [productName, setProductName] = useState("");
+    const [cost, setCost] = useState("");
+    const [brandID, setBrandID] = useState("");
+    const [proteinTypeID, setProteinTypeID] = useState("");
+    const [flavorID, setFlavorID] = useState("");
+    const [stockQuantity, setStockQuantity] = useState("");
 
+    // Receive from backend to populate drop-downs
+    const [brands, setBrands] = useState([]);
+    const [proteins, setProteins] = useState([]);
+    const [flavors, setFlavors] = useState([]);
 
-    
-    const brands = [
-        { id: 1, name: "Legion" },
-        { id: 2, name: "Optimum Nutrition" },
-        { id: 3, name: "Transparent Labs" },
-        { id: 4, name: "Dynamatize" },
-        { id: 5, name: "Garden of Life" }
-    ];
-    const proteinTypes = [
-        { id: 1, type: "Whey" },
-        { id: 2, type: "Casein" },
-        { id: 3, type: "Pea" },
-        { id: 4, type: "Soy" },
-        { id: 5, type: "Egg" }
-    ];
-    const flavors = [
-        { id: 1, name: "Vanilla" },
-        { id: 2, name: "Chocolate" },
-        { id: 3, name: "Cookies & Cream" },
-        { id: 4, name: "Salted Caramel" },
-        { id: 5, name: "Unflavored" }
-    ];
+    // Load chosen product information on page
+    const loadProduct = async() => {
+        const response = await fetch(`${backendURL}/edit-product/${productID}`);
+        const data = await response.json();
 
+        const product = data.product[0];
 
+        setProductName(product.productName);
+        setCost(product.cost);
+        setBrandID(product.brandID);
+        setProteinTypeID(product.proteinTypeID);
+        setFlavorID(product.flavorID);
+        setStockQuantity(product.stockQuantity);
+    };
 
+    useEffect(() => {
+        fetch(`${backendURL}/add-product`)
+            .then((response) => response.json())
+            .then((data) => {
+                setBrands(data.brands);
+                setProteins(data.proteins);
+                setFlavors(data.flavors);
+            });
+        loadProduct();
+    }, [backendURL]);
 
-    function handleSubmit(e) {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+
+        const editProduct = {
+            productID,
+            productName,
+            cost,
+            stockQuantity,
+            brandID,
+            proteinTypeID,
+            flavorID
+        };
+        const response = await fetch(`${backendURL}/edit-product/${productID}/update`, {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(editProduct)
+        });
+
+        if (response.status === 200) {
+            alert(`Updated product ${productID}: ${productName}`);
+        } else {
+            alert(`Failed to edit product, status code ${response.satus}.`);
+        }
         navigate("/products");
     }
+
+
 
     return (
         <main className="form-page">
@@ -109,7 +137,7 @@ function EditProduct() {
                             onChange={(e) => setBrandID(e.target.value)}
                         >
                             {brands.map((brand) => (
-                                <option key={brand.id} value={brand.id}>{brand.name}</option>
+                                <option key={brand.brandID} value={brand.brandID}>{brand.brandName}</option>
                             ))}
                         </select>
                     </div>
@@ -122,8 +150,8 @@ function EditProduct() {
                             required
                             onChange={(e) => setProteinTypeID(e.target.value)}
                         >
-                            {proteinTypes.map((protein) => (
-                                <option key={protein.id} value={protein.id}>{protein.type}</option>
+                            {proteins.map((protein) => (
+                                <option key={protein.proteinTypeID} value={protein.proteinTypeID}>{protein.proteinType}</option>
                             ))}
                         </select>
                     </div>
@@ -137,7 +165,7 @@ function EditProduct() {
                             onChange={(e) => setFlavorID(e.target.value)}
                         >
                             {flavors.map((flavor) => (
-                                <option key={flavor.id} value={flavor.id}>{flavor.name}</option>
+                                <option key={flavor.flavorID} value={flavor.flavorID}>{flavor.flavorName}</option>
                             ))}
                         </select>
                     </div>

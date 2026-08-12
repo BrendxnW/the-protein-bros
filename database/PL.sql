@@ -13,6 +13,7 @@ DROP VIEW IF EXISTS view_invoices;
 DROP VIEW IF EXISTS view_invoice_details;
 DROP VIEW IF EXISTS view_supplier_products;
 DROP VIEW IF EXISTS view_product_ids;
+DROP VIEW IF EXISTS view_product;
 
 -- View Products
 CREATE VIEW view_products
@@ -117,6 +118,14 @@ AS
 SELECT productID, productName AS Product
 FROM Products
 ORDER BY Products.productID ASC;
+
+-- View information about a Product
+create view view_product
+as
+SELECT productID, productName, cost, stockQuantity, brandID, proteinTypeID, flavorID
+FROM Products
+
+
 
 -- -----------------------
 -- Insert Procedures --
