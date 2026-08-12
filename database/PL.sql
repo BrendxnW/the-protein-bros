@@ -13,6 +13,7 @@ DROP VIEW IF EXISTS view_invoices;
 DROP VIEW IF EXISTS view_invoice_details;
 DROP VIEW IF EXISTS view_supplier_products;
 DROP VIEW IF EXISTS view_product_ids;
+DROP VIEW IF EXISTS view_product;
 
 -- View Products
 CREATE VIEW view_products
@@ -118,6 +119,14 @@ SELECT productID, productName AS Product
 FROM Products
 ORDER BY Products.productID ASC;
 
+-- View information about a Product
+create view view_product
+as
+SELECT productID, productName, cost, stockQuantity, brandID, proteinTypeID, flavorID
+FROM Products
+
+
+
 -- -----------------------
 -- Insert Procedures --
 -- -----------------------
@@ -215,6 +224,46 @@ DELIMITER ;
 -- Update Procedures --
 -- -----------------------
 
+-- Update a Supplier-Product relationship
+DROP PROCEDURE IF EXISTS update_supplier_product;
+DELIMITER //
+CREATE PROCEDURE update_supplier_product(
+    in inputSupplierID int,
+    in inputProductID int,
+    in inputWholesale decimal(10, 2)
+)
+BEGIN
+    UPDATE SupplierProducts
+    SET wholesalePrice = inputWholesale
+    WHERE supplierID = inputSupplierID AND productID = inputProductID;
+END //
+DELIMITER ;
+
+-- Update a Product's data given its ID
+DROP PROCEDURE IF EXISTS update_product;
+DELIMITER //
+CREATE PROCEDURE update_product(
+    in productIDInput int,
+    in productNameInput varchar(100),
+    in costInput decimal(10, 2),
+    in stockQuantityInput int,
+    in brandIDInput int,
+    in proteinTypeIDInput int,
+    in flavorIDInput int
+)
+BEGIN
+    UPDATE Products
+    SET productName = productNameInput, 
+        cost = costInput, 
+        stockQuantity = stockQuantityInput,
+        brandID = brandIDInput, 
+        proteinTypeID = proteinTypeIDInput, 
+        flavorID = flavorIDInput
+    WHERE productID = productIDInput;
+END //
+DELIMITER ;
+
+
 -- -----------------------
 -- Delete Procedures --
 -- -----------------------
@@ -222,7 +271,6 @@ DELIMITER ;
 -- Delete a Supplier-Product relationship
 DROP PROCEDURE IF EXISTS delete_supplier_product;
 DELIMITER //
-
 CREATE PROCEDURE delete_supplier_product(
     IN inputSupplierID INT,
     IN inputProductID INT
@@ -245,5 +293,17 @@ BEGIN
         END IF;
     COMMIT;
 END //
+DELIMITER ;
 
+
+-- Delete a Product given its ID
+DROP PROCEDURE IF EXISTS delete_product;
+DELIMITER //
+CREATE PROCEDURE delete_product(
+    in inputProductID int
+)
+BEGIN
+    DELETE FROM Products
+    WHERE productID = inputProductID;
+END //
 DELIMITER ;

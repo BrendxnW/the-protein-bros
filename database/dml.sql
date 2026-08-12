@@ -189,7 +189,7 @@ WHERE supplierID = :selectedSupplierID;
 
 -- Update the Products of a Supplier given the supplier ID
 UPDATE SupplierProducts
-    SET productID = :productIDInput, supplierID = :supplierIDInput, wholesalePrice = :wholesalePriceInput
+    SET wholesalePrice = :wholesalePriceInput
 WHERE supplierID = :selectedSupplierID AND productID = :selectedProductID;
 
 -- Delete a Product from a Supplier given the supplier ID

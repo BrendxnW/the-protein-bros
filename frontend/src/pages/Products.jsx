@@ -16,16 +16,22 @@ function Products({ backendURL }) {
         loadProducts();
     }, []);
 
-    function deleteProduct(productID) {
-        const confirmed = window.confirm(
-            "Are you sure you want to delete this product?"
-        );
-
-        if (confirmed) {
-            alert(`Product ${productID} would be deleted`);
-
+    const deleteProduct = async(productID) => {
+        const check = window.confirm("Are you sure you want to delete this item?");
+        if (check) {
+            const response = await fetch(`${backendURL}/products/delete`, {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({productID})
+            });
+            if (response.status === 200) {
+                alert(`Product was deleted.`);
+                await loadProducts();
+            } else {
+                alert(`Failed to delete products, status code ${response.status}.`);
+            };
         }
-    }
+    };
 
     return (
         <>
@@ -58,7 +64,13 @@ function Products({ backendURL }) {
                             <td>${product.price}</td>
                             <td>{product.inventory}</td>
                             <td>
-                                <button className="gen-button" onClick={() => navigate(`/edit-product/${product.id}`)}>Edit</button>
+                                <button className="gen-button" onClick={() => {
+                                    navigate(`/edit-product/${product.id}`, {
+                                        state: product
+                                    });
+                                }}>
+                                    Edit
+                                </button>
                                 <button className="delete-button" onClick={() => deleteProduct(product.id)}>Delete</button>
                             </td>
                         </tr>
