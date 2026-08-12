@@ -12,6 +12,7 @@ p {
 table {
     border-collapse: collapse;
     margin-left: 32px;
+    margin-bottom: 15px;
 }
 
 th, td {
@@ -394,4 +395,20 @@ form input {
 
 .mini-form .submit-button {
     margin-top: 15px;
+}
+
+.edit-button {
+    background-color: #D2B55B;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    padding: 6px 10px;
+    font-family: sans-serif;
+    margin-left: 33px;
+    margin-bottom: 5px;
+}
+
+.edit-button:hover {
+    cursor: pointer;
+    background-color: #C49102;
 }

@@ -94,37 +94,6 @@ function SupplierProducts({backendURL}) {
     return (
         <>
         <h1>{supplier}</h1>
-        <button className="add-button" onClick={() => setIsOpen(!isOpen)}>
-             + Add Product
-        </button>
-
-        {isOpen && (
-            <div className="mini-form">
-                <form id='new-supplier-product' onSubmit={handleSubmit}>
-                    <div className="form-field">
-                    <label htmlFor="addProduct">Product: </label>
-                    <select id="addProductID" value={addProductID} onChange={(e) => 
-                        setAddProductID(e.target.value)}>
-                        <option value="">Select a Product</option>
-                        {allProducts.map((e) => (
-                            <option key={e.productID} value={e.productID}>
-                                {e.Product}
-                            </option>
-                        ))}
-                    </select>
-                    </div>
-
-                    <div className="form-field">
-                    <label htmlFor="wholesale">Wholesale: </label>
-                    <input id="wholesale" value={addWholesale} type="number" step="0.01" name="AddWholesale"
-                        onChange={(e) => setAddWholesale(e.target.value)} />
-                    </div>
-
-                    <button className="submit-button" type="submit">Add</button>
-                </form>
-            </div>
-        )}
-
 
         <table>
             <thead>
@@ -157,6 +126,46 @@ function SupplierProducts({backendURL}) {
                 ))}
             </tbody>
         </table>
+
+        <button className="add-button" onClick={() => {
+            setIsOpen(!isOpen);
+            setEditOpen(false);
+        }}>
+             + Add Product
+        </button>
+        <button className="edit-button" onClick={() => {
+            setEditOpen(!editOpen);
+            setIsOpen(false);
+        }}>
+             Edit Product
+        </button>
+
+        {isOpen && (
+            <div className="mini-form">
+                <form id='new-supplier-product' onSubmit={handleSubmit}>
+                    <div className="form-field">
+                    <label htmlFor="addProduct">Product: </label>
+                    <select id="addProductID" value={addProductID} onChange={(e) => 
+                        setAddProductID(e.target.value)}>
+                        <option value="">Select a Product</option>
+                        {allProducts.map((e) => (
+                            <option key={e.productID} value={e.productID}>
+                                {e.Product}
+                            </option>
+                        ))}
+                    </select>
+                    </div>
+
+                    <div className="form-field">
+                    <label htmlFor="wholesale">Wholesale: </label>
+                    <input id="wholesale" value={addWholesale} type="number" step="0.01" name="AddWholesale"
+                        onChange={(e) => setAddWholesale(e.target.value)} />
+                    </div>
+
+                    <button className="submit-button" type="submit">Add</button>
+                </form>
+            </div>
+        )}
 
         {editOpen && (
             <div className="mini-form">
