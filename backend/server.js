@@ -324,6 +324,17 @@ app.get(`/edit-product/:id`, async(req, res) => {
     }
 })
 
+// Delete a Product given its ID
+app.post(`/products/delete`, async(req, res) => {
+    try {
+        const {productID} = req.body;
+        await db.query(`call delete_product(?);`, [productID]);
+        res.sendStatus(200);
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
+    }
+})
 
 
 

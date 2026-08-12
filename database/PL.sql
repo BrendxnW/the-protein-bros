@@ -294,3 +294,16 @@ BEGIN
     COMMIT;
 END //
 DELIMITER ;
+
+
+-- Delete a Product given its ID
+DROP PROCEDURE IF EXISTS delete_product;
+DELIMITER //
+CREATE PROCEDURE delete_product(
+    in inputProductID int
+)
+BEGIN
+    DELETE FROM Products
+    WHERE productID = inputProductID;
+END //
+DELIMITER ;
