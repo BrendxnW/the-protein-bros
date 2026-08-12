@@ -225,7 +225,6 @@ DELIMITER ;
 -- -----------------------
 
 -- Update a Supplier-Product relationship
-
 DROP PROCEDURE IF EXISTS update_supplier_product;
 DELIMITER //
 CREATE PROCEDURE update_supplier_product(
@@ -240,7 +239,29 @@ BEGIN
 END //
 DELIMITER ;
 
-
+-- Update a Product's data given its ID
+DROP PROCEDURE IF EXISTS update_product;
+DELIMITER //
+CREATE PROCEDURE update_product(
+    in productIDInput int,
+    in productNameInput varchar(100),
+    in costInput decimal(10, 2),
+    in stockQuantityInput int,
+    in brandIDInput int,
+    in proteinTypeIDInput int,
+    in flavorIDInput int
+)
+BEGIN
+    UPDATE Products
+    SET productName = productNameInput, 
+        cost = costInput, 
+        stockQuantity = stockQuantityInput,
+        brandID = brandIDInput, 
+        proteinTypeID = proteinTypeIDInput, 
+        flavorID = flavorIDInput
+    WHERE productID = productIDInput;
+END //
+DELIMITER ;
 
 
 -- -----------------------

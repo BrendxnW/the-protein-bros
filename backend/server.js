@@ -292,7 +292,20 @@ app.post(`/supplier-products/:id/update`, async(req, res) => {
 
 // Update an existing Product
 app.post(`/edit-product/:id/update`, async(req, res) => {
-    try {} catch (error) {
+    try {
+        const {productID, productName, cost, stockQuantity, brandID, proteinTypeID, flavorID} = req.body;
+        await db.query(`call update_product(?,?,?,?,?,?,?)`,
+            [productID, productName, cost, stockQuantity, brandID, proteinTypeID, flavorID]
+        );
+
+        res.sendStatus(200)
+
+        console.log(`UPDATE Product
+                    ProductID: ${productID},
+                    ProductName: ${productName},
+                    Cost: ${cost},
+                    Quantity: ${stockQuantity}`);
+    } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).json({ error: "An error occurred while executing the database queries." });
     }

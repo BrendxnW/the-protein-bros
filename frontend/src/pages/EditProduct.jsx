@@ -63,14 +63,12 @@ function EditProduct({backendURL}) {
         });
 
         if (response.status === 200) {
-            alert(`Updated product ${productID}: ${productName}`);
+            alert(`Updated product #${productID} : ${productName}`);
         } else {
             alert(`Failed to edit product, status code ${response.satus}.`);
         }
         navigate("/products");
     }
-
-
 
     return (
         <main className="form-page">
