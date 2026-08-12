@@ -12,6 +12,8 @@ function EditProduct() {
     const [flavorID, setFlavorID] = useState("2");
     const [stockQuantity, setStockQuantity] = useState("50");
 
+
+    
     const brands = [
         { id: 1, name: "Legion" },
         { id: 2, name: "Optimum Nutrition" },
@@ -33,6 +35,9 @@ function EditProduct() {
         { id: 4, name: "Salted Caramel" },
         { id: 5, name: "Unflavored" }
     ];
+
+
+
 
     function handleSubmit(e) {
         e.preventDefault();

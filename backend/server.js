@@ -268,7 +268,25 @@ app.post(`/supplier-products/:id/delete`, async(req, res) => {
     }
 })
 
+// Update a Product-Supplier relationship
+app.post(`/supplier-products/:id/update`, async(req, res) => {
+    try {
+        const {supplierID, editProductID, editWholesale} = req.body;
+        await db.query(`call update_supplier_product(?,?,?);`, 
+            [supplierID, editProductID, editWholesale]
+        );
 
+        res.sendStatus(200);
+
+        console.log(`UPDATE supplierProducts
+                    SupplierID: ${supplierID},
+                    ProductID: ${editProductID},
+                    Wholesale: ${editWholesale}`);
+    } catch (error) {
+        console.error("Error executing queries:", error);
+        res.status(500).json({ error: "An error occurred while executing the database queries." });
+    }
+})
 
 
 

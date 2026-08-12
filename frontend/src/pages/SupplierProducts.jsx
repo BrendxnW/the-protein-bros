@@ -14,6 +14,12 @@ function SupplierProducts({backendURL}) {
     const [addProductID, setAddProductID] = useState("");
     const [addWholesale, setAddWholesale] = useState("");
 
+    // To edit a Supplier-Product Relationship
+    const [editOpen, setEditOpen] = useState(false);
+    const [editProductID, setEditProductID] = useState("");
+    const [editWholesale, setEditWholesale] = useState("");
+
+
     const loadProducts = async() => {
         const response = await fetch(`${backendURL}/supplier-products/${supplierID}`);
         const data = await response.json();
@@ -26,6 +32,7 @@ function SupplierProducts({backendURL}) {
         loadProducts();
     }, [supplierID]);
 
+    // Delete an existing Supplier-Product relationship
     const deleteProduct = async(productID) => {
         const check = window.confirm("Are you sure you want to delete this item?");
         if (check) {
@@ -44,6 +51,7 @@ function SupplierProducts({backendURL}) {
         }
     };
 
+    // To add a new Supplier-Product Relationship
     const handleSubmit = async(e) => {
         e.preventDefault();
 
@@ -63,6 +71,26 @@ function SupplierProducts({backendURL}) {
         }
     }
 
+    // To edit an existing Supplier-Product relationship
+    const editProduct = async(e) => {
+        e.preventDefault();
+
+        const editRelation = {supplierID, editProductID, editWholesale};
+        const response = await fetch(`${backendURL}/supplier-products/:id/update`, {
+            method: 'POST',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(editRelation)
+        });
+
+        if (response.status === 200) {
+            alert("Updated wholesale");
+            await loadProducts();
+            setIsOpen(false);
+        } else {
+            alert(`Failed to edit product, status code ${response.status}.`);
+        }
+    }
+
     return (
         <>
         <h1>{supplier}</h1>
@@ -71,9 +99,9 @@ function SupplierProducts({backendURL}) {
         </button>
 
         {isOpen && (
-            <div className="new-supplier-product">
+            <div className="mini-form">
                 <form id='new-supplier-product' onSubmit={handleSubmit}>
-                    <div>
+                    <div className="form-field">
                     <label htmlFor="addProduct">Product: </label>
                     <select id="addProductID" value={addProductID} onChange={(e) => 
                         setAddProductID(e.target.value)}>
@@ -86,16 +114,14 @@ function SupplierProducts({backendURL}) {
                     </select>
                     </div>
 
-                    <div>
-                    <label>WholeSale: </label>
+                    <div className="form-field">
+                    <label htmlFor="wholesale">Wholesale: </label>
                     <input id="wholesale" value={addWholesale} type="number" step="0.01" name="AddWholesale"
                         onChange={(e) => setAddWholesale(e.target.value)} />
                     </div>
 
                     <button className="submit-button" type="submit">Add</button>
                 </form>
-
-
             </div>
         )}
 
@@ -105,7 +131,7 @@ function SupplierProducts({backendURL}) {
                 <tr>
                     <th>Item ID</th>
                     <th>Product</th>
-                    <th>WholeSale</th>
+                    <th>Wholesale</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -116,13 +142,53 @@ function SupplierProducts({backendURL}) {
                         <td>{i.product}</td>
                         <td>{i.price}</td>
                         <td>
-                            <button className="gen-button" onClick={() => navigate(`/edit-product/${i.productid}`)}>Edit</button>
+                            <button className="gen-button" onClick={() => {
+                                if (i.productid !== editProductID) {
+                                    setEditOpen(true);
+                                    setEditProductID(i.productid);
+                                    setEditWholesale(i.price);
+                                } else {
+                                    setEditOpen(!editOpen);
+                                }
+                            }}>Edit</button>
                             <button className="delete-button" onClick={() => deleteProduct(i.productid)}>Delete</button>
                         </td>
                     </tr>
                 ))}
             </tbody>
         </table>
+
+        {editOpen && (
+            <div className="mini-form">
+                <form id="edit-supplier-product" onSubmit={editProduct}>
+                    <div className="form-field">
+                        <label htmlFor='editProduct'>Product: </label>
+                        <select 
+                        id="editProductID" value={editProductID} 
+                        onChange={(e) => {
+                            const currProduct = products.find((i) => i.productid == e.target.value);
+                            setEditProductID(e.target.value);
+                            setEditWholesale(currProduct.price);
+                        }}>
+                            {products.map((e) => (
+                                <option key={e.productid} value={e.productid}>
+                                    {e.product}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="form-field">
+                        <label htmlFor="wholesale">Wholesale</label>
+                        <input id="wholesale" value={editWholesale} type="number" step="0.01" name="EditWholesale"
+                        onChange={(e) => setEditWholesale(e.target.value)} />
+                    </div>
+
+                    <button className="submit-button" type="submit">Edit</button>
+
+                </form>
+            </div>
+        )}
         </>
     )
 };

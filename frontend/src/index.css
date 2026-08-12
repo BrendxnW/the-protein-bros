@@ -177,6 +177,10 @@ form input {
     margin: 10px;
 }
 
+.edit-supplier-product {
+    margin: 10px;
+}
+
 .form-page {
     width: min(100% - 32px, 560px);
     margin: 32px auto;
@@ -336,4 +340,58 @@ form input {
     .product-form-row {
         grid-template-columns: 1fr;
     }
+}
+
+
+.mini-form {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 5px 32px 10px;
+    gap: 20px;
+}
+
+.mini-form .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mini-form .form-field label {
+    width: auto;
+    margin-top: 10px;
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+.mini-form .form-field input,
+.mini-form .form-field select {
+    box-sizing: border-box;
+    width: 100%;
+    height: 42px;
+    margin: 0;
+    padding: 0 12px;
+    background: #FFFFFF;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    color: #111827;
+    font: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.mini-form .form-field input:focus,
+.mini-form .form-field select:focus {
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.16);
+    outline: none;
+}
+
+.mini-form .form-field input::placeholder {
+    color: #9CA3AF;
+}
+
+.mini-form .submit-button {
+    margin-top: 15px;
 }

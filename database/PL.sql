@@ -215,6 +215,25 @@ DELIMITER ;
 -- Update Procedures --
 -- -----------------------
 
+-- Update a Supplier-Product relationship
+
+DROP PROCEDURE IF EXISTS update_supplier_product;
+DELIMITER //
+CREATE PROCEDURE update_supplier_product(
+    in inputSupplierID int,
+    in inputProductID int,
+    in inputWholesale decimal(10, 2)
+)
+BEGIN
+    UPDATE SupplierProducts
+    SET wholesalePrice = inputWholesale
+    WHERE supplierID = inputSupplierID AND productID = inputProductID;
+END //
+DELIMITER ;
+
+
+
+
 -- -----------------------
 -- Delete Procedures --
 -- -----------------------
@@ -222,7 +241,6 @@ DELIMITER ;
 -- Delete a Supplier-Product relationship
 DROP PROCEDURE IF EXISTS delete_supplier_product;
 DELIMITER //
-
 CREATE PROCEDURE delete_supplier_product(
     IN inputSupplierID INT,
     IN inputProductID INT
@@ -245,5 +263,4 @@ BEGIN
         END IF;
     COMMIT;
 END //
-
 DELIMITER ;
