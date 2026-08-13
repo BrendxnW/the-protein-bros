@@ -4,25 +4,135 @@ DROP PROCEDURE IF EXISTS ResetDatabase;
 
 CREATE PROCEDURE ResetDatabase()
 BEGIN
-	DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		SET foreign_key_checks = 1;
-		RESIGNAL;
-	END;
 
 	SET foreign_key_checks = 0;
 
-	-- Clear all application data while preserving tables and views.
-	-- TRUNCATE also resets each AUTO_INCREMENT counter to 1.
-	TRUNCATE TABLE InvoiceDetails;
-	TRUNCATE TABLE SupplierProducts;
-	TRUNCATE TABLE Invoices;
-	TRUNCATE TABLE Products;
-	TRUNCATE TABLE Suppliers;
-	TRUNCATE TABLE Customers;
-	TRUNCATE TABLE Brands;
-	TRUNCATE TABLE ProteinTypes;
-	TRUNCATE TABLE Flavors;
+	-- Drop Tables
+		DROP TABLE IF EXISTS SupplierProducts;
+		DROP TABLE IF EXISTS InvoiceDetails;
+		DROP TABLE IF EXISTS Invoices;
+		DROP TABLE IF EXISTS Products;
+		DROP TABLE IF EXISTS Suppliers;
+		DROP TABLE IF EXISTS Customers;
+		DROP TABLE IF EXISTS Brands;
+		DROP TABLE IF EXISTS ProteinTypes;
+		DROP TABLE IF EXISTS Flavors;
+
+
+	-- Recreate Tables
+	CREATE TABLE Customers (
+        customerID INT NOT NULL AUTO_INCREMENT,
+	    customerName VARCHAR(100) NOT NULL,
+        phoneNumber VARCHAR(20) UNIQUE NOT NULL,
+        address VARCHAR(100),
+        PRIMARY KEY (customerID)
+        );
+
+
+
+        CREATE TABLE Invoices (
+            invoiceID INT NOT NULL AUTO_INCREMENT,
+            customerID INT NOT NULL,
+            totalCost DECIMAL(10,2) NOT NULL,
+            orderDate DATE NOT NULL,
+            PRIMARY KEY (invoiceID),
+            FOREIGN KEY (customerID)
+                REFERENCES Customers(customerID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT
+        );
+
+
+        CREATE TABLE Brands (
+            brandID INT NOT NULL AUTO_INCREMENT,
+            brandName VARCHAR(255) UNIQUE NOT NULL,
+            PRIMARY KEY (brandID)
+        );
+
+
+        CREATE TABLE ProteinTypes (
+            proteinTypeID INT NOT NULL AUTO_INCREMENT,
+            proteinType VARCHAR(100) UNIQUE NOT NULL,
+            PRIMARY KEY (proteinTypeID)
+        );
+
+
+        CREATE TABLE Flavors (
+            flavorID INT NOT NULL AUTO_INCREMENT,
+            flavorName VARCHAR(100) UNIQUE NOT NULL,
+            PRIMARY KEY (flavorID)
+        );
+
+
+        CREATE TABLE Products (
+            productID INT NOT NULL AUTO_INCREMENT,
+            productName VARCHAR(100) NOT NULL,
+            cost DECIMAL(10,2) NOT NULL,
+            brandID INT NOT NULL,
+            proteinTypeID INT NOT NULL,
+            flavorID INT NOT NULL,
+            stockQuantity INT NOT NULL,
+            PRIMARY KEY (productID),
+            FOREIGN KEY (brandID)
+                REFERENCES Brands(brandID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT,
+            FOREIGN KEY (proteinTypeID)
+                REFERENCES ProteinTypes(proteinTypeID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT,
+            FOREIGN KEY (flavorID)
+                REFERENCES Flavors(flavorID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT
+        );
+
+
+        CREATE TABLE InvoiceDetails (
+            invoiceDetailsID INT NOT NULL AUTO_INCREMENT,
+            quantityOrdered INT NOT NULL,
+            invoiceID INT NOT NULL,
+            productID INT NOT NULL,
+            priceAtSale DECIMAL(10,2) NOT NULL,
+            PRIMARY KEY (invoiceDetailsID),
+            UNIQUE KEY (invoiceID, productID),
+            FOREIGN KEY (invoiceID)
+                REFERENCES Invoices(invoiceID)
+                ON UPDATE CASCADE
+                ON DELETE cascade,
+            FOREIGN KEY (productID)
+                REFERENCES Products(productID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT
+        );
+
+
+        CREATE TABLE Suppliers (
+            supplierID INT NOT NULL AUTO_INCREMENT,
+            supplierName VARCHAR(100) NOT NULL,
+            contactName VARCHAR(100) NOT NULL,
+            supplierPhoneNumber VARCHAR(20) NOT NULL,
+            supplierAddress VARCHAR(100),
+            PRIMARY KEY (supplierID)
+        );
+
+
+        CREATE TABLE SupplierProducts (
+            supplierProductID INT NOT NULL AUTO_INCREMENT,
+            wholesalePrice DECIMAL(10,2) NOT NULL,
+            productID INT NOT NULL,
+            supplierID INT NOT NULL,
+            PRIMARY KEY (supplierProductID),
+            UNIQUE KEY (productID, supplierID),
+            FOREIGN KEY (productID)
+                REFERENCES Products(productID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT,
+            FOREIGN KEY (supplierID)
+                REFERENCES Suppliers(supplierID)
+                ON UPDATE CASCADE
+                ON DELETE RESTRICT
+        );
 
 
 -- Readd Sample Data
