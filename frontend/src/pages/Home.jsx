@@ -26,13 +26,14 @@ function Home({ backendURL }) {
                 });
 
                 if (!response.ok) {
-                    throw new Error("Reset request failed");
+                    const data = await response.json().catch(() => ({}));
+                    throw new Error(data.error || "Reset request failed");
                 }
 
                 alert("All tables have been reset.");
             } catch (error) {
                 console.error("Error resetting tables:", error);
-                alert("Something went wrong while resetting the tables.");
+                alert(error.message || "Something went wrong while resetting the tables.");
             }
         }
     }
