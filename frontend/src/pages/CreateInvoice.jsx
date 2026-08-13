@@ -19,8 +19,6 @@ function CreateInvoice({ backendURL }) {
             });
     }, [backendURL]);
 
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -37,7 +35,7 @@ function CreateInvoice({ backendURL }) {
         }
         navigate("/invoices");
     };
-    
+
     // Recording selected items, prices, and quantities
     function recordOrder(productID, price, quantity) {
         setOrder(order => {

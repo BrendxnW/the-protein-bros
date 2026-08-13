@@ -162,15 +162,6 @@ app.post(`/add-invoice`, async(req, res) => {
         const [response] = await db.query(`select @invoiceID as invoiceID;`);
         const newInvoiceID = response[0].invoiceID;
 
-        // pass invoiceID and order object to the helper
-        // helper iterates, pulls relevant data, sends query to db then loops until complete
-
-        // if theres an error at any point, set up a proc that will go back and delete the 
-        // entire invoice and any details associated
-
-        // else the helper will return some kind of okay
-
-
         for (const item of order) {
             const productID = item.productID;
             const price = item.price;
@@ -179,7 +170,6 @@ app.post(`/add-invoice`, async(req, res) => {
                 [newInvoiceID, productID, price, quantity]
             );
         };
-
 
         res.status(200).json({invoiceID: newInvoiceID});
     } catch (error) {
