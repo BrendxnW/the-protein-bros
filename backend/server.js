@@ -153,7 +153,7 @@ app.get(`/supplier-products/:supplierID`, async (req, res) => {
 })
 
 
-// Add a new Invoice
+// Add a new Invoice to the database
 app.post(`/add-invoice`, async(req, res) => {
     try {
         const {customerID, totalCost, orderDate} = req.body;
@@ -167,10 +167,12 @@ app.post(`/add-invoice`, async(req, res) => {
     }
 });
 
+// Get info needed to populate the Add Invoice page
 app.get(`/add-invoice`, async(req, res) => {
     try {
-        const [customers] = await db.query(`select customerID, customerName from Customers;`)
-        res.status(200).json({ customers })
+        const [products] = await db.query(`select * from view_products;`);
+        const [customers] = await db.query(`select customerID, customerName from Customers;`);
+        res.status(200).json({ customers, products });
     } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).json({ error: "An error occurred while executing the database queries." });
