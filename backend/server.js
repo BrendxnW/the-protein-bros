@@ -41,7 +41,7 @@ app.post('/reset', async (req, res) => {
         res.status(200).json({ message: "Database reset successfully." });
     } catch (error) {
         console.error("Error resetting database:", error);
-        res.status(500).json({ error: "An error occurred while resetting the database." });
+        res.status(500).json({ error: "The database could not be reset. Make sure ResetDatabase is installed." });
     }
 });
 
@@ -53,6 +53,37 @@ app.get('/customers', async (req,res) => {
     } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).json({ error: "An error occurred while executing the database queries." });
+    }
+});
+
+// Delete a Customer given their ID
+app.post('/customers/delete', async (req, res) => {
+    try {
+        const { customerID } = req.body;
+
+        if (!customerID) {
+            return res.status(400).json({ error: "A customer ID is required." });
+        }
+
+        const [result] = await db.query(
+            `DELETE FROM Customers WHERE customerID = ?;`,
+            [customerID]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Customer not found." });
+        }
+
+        res.sendStatus(200);
+    } catch (error) {
+        if (error.code === 'ER_ROW_IS_REFERENCED_2') {
+            return res.status(409).json({
+                error: "This customer cannot be deleted because they have existing invoices."
+            });
+        }
+
+        console.error("Error deleting customer:", error);
+        res.status(500).json({ error: "An error occurred while deleting the customer." });
     }
 });
 
@@ -314,16 +345,32 @@ app.post(`/edit-product/:id/update`, async(req, res) => {
 
 
 // Get the information of a single Product to populate the edit fields
-app.get(`/edit-product/:id`, async(req, res) => {
+app.get('/edit-product/:id', async (req, res) => {
     try {
-        const {id} = req.params;
-        const [product] = await db.query(`select * from view_product where productID = ?;`, [id])
-        res.status(200).json({product});
-    } catch(error) {
+        const { id } = req.params;
+
+        const [product] = await db.query(
+            `SELECT
+                productID,
+                productName,
+                cost,
+                brandID,
+                proteinTypeID,
+                flavorID,
+                stockQuantity
+             FROM Products
+             WHERE productID = ?;`,
+            [id]
+        );
+
+        res.status(200).json({ product });
+    } catch (error) {
         console.error("Error executing queries:", error);
-        res.status(500).json({error: "An error occurred while executing the database queries."});
+        res.status(500).json({
+            error: "An error occurred while executing the database queries."
+        });
     }
-})
+});
 
 // Delete a Product given its ID
 app.post(`/products/delete`, async(req, res) => {

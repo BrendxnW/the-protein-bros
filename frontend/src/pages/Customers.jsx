@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "../index.css";
 
@@ -6,24 +6,45 @@ function Customers({backendURL}) {
     const navigate = useNavigate();
     const [customers, setCustomers] = useState([]);
 
-    useEffect(() => {
-        const loadCustomers = async() => {
-            const response = await fetch(`${backendURL}/customers`);
-            const data = await response.json();
+    const loadCustomers = useCallback(async() => {
+        const response = await fetch(`${backendURL}/customers`);
+        const data = await response.json();
 
-            setCustomers(data.customers);
-        };
-
-        loadCustomers();
+        setCustomers(data.customers);
     }, [backendURL]);
 
+    useEffect(() => {
+        fetch(`${backendURL}/customers`)
+            .then((response) => response.json())
+            .then((data) => setCustomers(data.customers));
+    }, [backendURL]);
 
-    function deleteCustomer(customerID) {
+    const deleteCustomer = async(customerID) => {
         const confirmed = window.confirm("Are you sure you want to delete this customer?");
-        if (confirmed) {
-            alert(`Customer ${customerID} would be deleted`);
+
+        if (!confirmed) {
+            return;
         }
-    }
+
+        try {
+            const response = await fetch(`${backendURL}/customers/delete`, {
+                method: 'POST',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify({customerID})
+            });
+
+            if (response.ok) {
+                alert("Customer was deleted.");
+                await loadCustomers();
+                return;
+            }
+
+            const data = await response.json().catch(() => ({}));
+            alert(data.error || `Failed to delete customer, status code ${response.status}.`);
+        } catch {
+            alert("Could not connect to the server to delete the customer.");
+        }
+    };
     
     return (
         <>
