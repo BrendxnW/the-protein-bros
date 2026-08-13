@@ -235,10 +235,10 @@ app.post(`/add-customer`, async(req, res) => {
             [customerName, phoneNumber, address]
         );
         const [result] = await db.query(`select @customerID as customerID;`);
-        res.status(200).json({productID: result[0].productID});
+        res.status(200).json({productID: result[0].customerID});
         
         console.log(`CREATE customer:
-                ID: ${result[0].productID}
+                ID: ${result[0].customerID}
                 NAME: ${customerName}`);
     } catch (error) {
         console.error("Error executing queries:", error);
