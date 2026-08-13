@@ -446,3 +446,12 @@ form input {
     cursor: pointer;
     background-color: #C49102;
 }
+
+.form-table {
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+.invoice-input {
+    width: 50px;
+}
