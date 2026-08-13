@@ -81,7 +81,7 @@ SELECT Invoices.invoiceID AS "Invoice Number", Invoices.orderDate AS "Date",
 Customers.customerName AS "Customer", Invoices.totalCost AS "Invoice Total"
 FROM Invoices
     JOIN Customers ON Customers.customerID = Invoices.customerID
-ORDER BY 'Invoice Number' ASC;
+ORDER BY Invoices.invoiceID ASC;
 
 -- Add a new Invoice (done alongside new InvoiceDetails)
 INSERT INTO Invoices (customerID, totalCost, orderDate)
