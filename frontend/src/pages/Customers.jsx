@@ -6,16 +6,16 @@ function Customers({backendURL}) {
     const navigate = useNavigate();
     const [customers, setCustomers] = useState([]);
 
-    const loadCustomers = async() => {
-        const response = await fetch(`${backendURL}/customers`);
-        const data = await response.json();
-
-        setCustomers(data.customers);
-    };
-
     useEffect(() => {
+        const loadCustomers = async() => {
+            const response = await fetch(`${backendURL}/customers`);
+            const data = await response.json();
+
+            setCustomers(data.customers);
+        };
+
         loadCustomers();
-    }, []);
+    }, [backendURL]);
 
 
     function deleteCustomer(customerID) {
@@ -48,7 +48,7 @@ function Customers({backendURL}) {
                         <td>{i.phone}</td>
                         <td>{i.address}</td>
                         <td><button className="gen-button" onClick={() => navigate(`/edit-customer/${i.id}`)}>Edit</button>
-                        <button className="delete-button" onClick={() => deleteCustomer()}>Delete</button></td>
+                        <button className="delete-button" onClick={() => deleteCustomer(i.id)}>Delete</button></td>
                     </tr>
                 ))}
             </tbody>

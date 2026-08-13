@@ -57,6 +57,7 @@ app.get('/customers', async (req,res) => {
 });
 
 
+
 // View all Suppliers
 app.get('/suppliers', async (req, res) => {
     try {
@@ -337,7 +338,57 @@ app.post(`/products/delete`, async(req, res) => {
 })
 
 
+// Get one Customer to populate the edit form
+app.get('/edit-customer/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const [customer] = await db.query(
+            `SELECT customerID, customerName, phoneNumber, address
+             FROM Customers
+             WHERE customerID = ?;`,
+            [id]
+        );
 
+        if (customer.length === 0) {
+            return res.status(404).json({ error: "Customer not found." });
+        }
+
+        res.status(200).json({ customer });
+    } catch (error) {
+        console.error("Error loading customer:", error);
+        res.status(500).json({ error: "An error occurred while loading the customer." });
+    }
+});
+
+// Update one Customer using the ID from the edit-page URL
+app.post('/edit-customer/:id/update', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { customerName, phoneNumber, address } = req.body;
+
+        if (!customerName?.trim() || !phoneNumber?.trim()) {
+            return res.status(400).json({
+                error: "Customer name and phone number are required."
+            });
+        }
+
+        const [result] = await db.query(
+            `UPDATE Customers
+             SET customerName = ?, phoneNumber = ?, address = ?
+             WHERE customerID = ?;`,
+            [customerName.trim(), phoneNumber.trim(), address?.trim() || null, id]
+        );
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Customer not found." });
+        }
+
+        res.sendStatus(200);
+    } catch (error) {
+        console.error("Error updating customer:", error);
+        res.status(500).json({ error: "An error occurred while updating the customer." });
+    }
+});
 
 
 

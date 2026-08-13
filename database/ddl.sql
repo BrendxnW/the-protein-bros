@@ -203,41 +203,41 @@ VALUES
     (
         'Gold Standard 100% Whey',
         34.99, 
-        (SELECT brandID FROM Brands WHERE brandName = "Optimum Nutrition"),
-        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Whey"),
-        (SELECT flavorID FROM Flavors WHERE flavorName = "Chocolate"),
+        (SELECT brandID FROM Brands WHERE brandName = 'Optimum Nutrition'),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = 'Whey'),
+        (SELECT flavorID FROM Flavors WHERE flavorName = 'Chocolate'),
         240
     ),
     (
         'ISO100',
         39.99,
-        (SELECT brandID FROM Brands WHERE brandName = "Dynamatize"),
-        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Whey"),
-        (SELECT flavorID FROM Flavors WHERE flavorName = "Cookies & Cream"),
+        (SELECT brandID FROM Brands WHERE brandName = 'Dynamatize'),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = 'Whey'),
+        (SELECT flavorID FROM Flavors WHERE flavorName = 'Cookies & Cream'),
         180
     ),
     (
         'Sport Plant-Based Protein',
         34.99,
-        (SELECT brandID FROM Brands WHERE brandName = "Garden of Life"),
-        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Pea"),
-        (SELECT flavorID FROM Flavors WHERE flavorName = "Vanilla"),
+        (SELECT brandID FROM Brands WHERE brandName = 'Garden of Life'),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = 'Pea'),
+        (SELECT flavorID FROM Flavors WHERE flavorName = 'Vanilla'),
         95
     ),
     (
         'Casein+',
         64.99,
-        (SELECT brandID FROM Brands WHERE brandName = "Legion"),
-        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Casein"),
-        (SELECT flavorID FROM Flavors WHERE flavorName = "Chocolate"),
+        (SELECT brandID FROM Brands WHERE brandName = 'Legion'),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = 'Casein'),
+        (SELECT flavorID FROM Flavors WHERE flavorName = 'Chocolate'),
         60
     ),
     (
         'Grass-Fed Whey Protein Isolate',
         59.99,
-        (SELECT brandID FROM Brands WHERE brandName = "Transparent Labs"),
-        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = "Whey"),
-        (SELECT flavorID FROM Flavors WHERE flavorName = "Salted Caramel"),
+        (SELECT brandID FROM Brands WHERE brandName = 'Transparent Labs'),
+        (SELECT proteinTypeID FROM ProteinTypes WHERE proteinType = 'Whey'),
+        (SELECT flavorID FROM Flavors WHERE flavorName = 'Salted Caramel'),
         120
     );
 
@@ -251,33 +251,33 @@ INSERT INTO SupplierProducts (wholesalePrice, productID, supplierID)
 VALUES
     (
         41.99,
-        (SELECT productID FROM Products WHERE productName = "Grass-Fed Whey Protein Isolate"),
-        (SELECT supplierID FROM Suppliers WHERE supplierName = "Europa Sports Products")
+        (SELECT productID FROM Products WHERE productName = 'Grass-Fed Whey Protein Isolate'),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = 'Europa Sports Products')
     ),
     (
         45.49,
-        (SELECT productID FROM Products WHERE productName = "Casein+"),
-        (SELECT supplierID FROM Suppliers WHERE supplierName = "Europa Sports Products")
+        (SELECT productID FROM Products WHERE productName = 'Casein+'),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = 'Europa Sports Products')
     ),
     (
         24.49,
-        (SELECT productID FROM Products WHERE productName = "Sport Plant-Based Protein"),
-        (SELECT supplierID FROM Suppliers WHERE supplierName = "Muscle Foods USA")
+        (SELECT productID FROM Products WHERE productName = 'Sport Plant-Based Protein'),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = 'Muscle Foods USA')
     ),
     (
         27.99,
-        (SELECT productID FROM Products WHERE productName = "ISO100"),
-        (SELECT supplierID FROM Suppliers WHERE supplierName = "UNFI")
+        (SELECT productID FROM Products WHERE productName = 'ISO100'),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = 'UNFI')
     ),
     (
         27.99,
-        (SELECT productID FROM Products WHERE productName = "Gold Standard 100% Whey"),
-        (SELECT supplierID FROM Suppliers WHERE supplierName = "Muscle Foods USA")
+        (SELECT productID FROM Products WHERE productName = 'Gold Standard 100% Whey'),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = 'Muscle Foods USA')
     ),
     (
         28.49,
-        (SELECT productID FROM Products WHERE productName = "Gold Standard 100% Whey"),
-        (SELECT supplierID FROM Suppliers WHERE supplierName = "UNFI")
+        (SELECT productID FROM Products WHERE productName = 'Gold Standard 100% Whey'),
+        (SELECT supplierID FROM Suppliers WHERE supplierName = 'UNFI')
     );
 
 
@@ -291,22 +291,22 @@ VALUES
 INSERT INTO Invoices (customerID, totalCost, orderDate)
 VALUES
     (
-        (SELECT customerID FROM Customers WHERE customerName = "John Forman"),
+        (SELECT customerID FROM Customers WHERE customerName = 'John Forman'),
         104.97,
         '2025-01-14'
     ),
     (
-        (SELECT customerID FROM Customers WHERE customerName = "Dean Smith"),
+        (SELECT customerID FROM Customers WHERE customerName = 'Dean Smith'),
         39.99,
         '2025-04-02'
     ),
     (
-        (SELECT customerID FROM Customers WHERE customerName = "Bob Marley"),
+        (SELECT customerID FROM Customers WHERE customerName = 'Bob Marley'),
         99.98,
         '2025-07-19'
     ),
     (
-        (SELECT customerID FROM Customers WHERE customerName = "John Forman"),
+        (SELECT customerID FROM Customers WHERE customerName = 'John Forman'),
         59.99,
         '2025-10-08'
     );
@@ -316,37 +316,37 @@ VALUES
     (
         2,
         1,
-        (SELECT productID FROM Products WHERE productName = "Gold Standard 100% Whey"),
+        (SELECT productID FROM Products WHERE productName = 'Gold Standard 100% Whey'),
         34.99
     ),
     (
         1,
         1,
-        (SELECT productID FROM Products WHERE productName = "Sport Plant-Based Protein"),
+        (SELECT productID FROM Products WHERE productName = 'Sport Plant-Based Protein'),
         34.99
     ),
     (
         1,
         2,
-        (SELECT productID FROM Products WHERE productName = "ISO100"),
+        (SELECT productID FROM Products WHERE productName = 'ISO100'),
         39.99
     ),
     (
         1,
         3,
-        (SELECT productID FROM Products WHERE productName = "Casein+"),
+        (SELECT productID FROM Products WHERE productName = 'Casein+'),
         64.99
     ),
     (
         1,
         3,
-        (SELECT productID FROM Products WHERE productName = "Sport Plant-Based Protein"),
+        (SELECT productID FROM Products WHERE productName = 'Sport Plant-Based Protein'),
         34.99
     ),
     (
         1,
         4,
-        (SELECT productID FROM Products WHERE productName = "Grass-Fed Whey Protein Isolate"),
+        (SELECT productID FROM Products WHERE productName = 'Grass-Fed Whey Protein Isolate'),
         59.99
     );
 

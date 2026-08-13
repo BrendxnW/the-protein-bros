@@ -294,6 +294,40 @@ form input {
     color: #9CA3AF;
 }
 
+.customer-form .field-hint {
+    color: #6B7280;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+.customer-form .optional-label {
+    margin-left: 6px;
+    color: #6B7280;
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.form-status,
+.form-error {
+    margin: 0;
+    padding: 24px 32px;
+    font-family: sans-serif;
+}
+
+.customer-form .form-error {
+    margin: 0;
+    padding: 12px 14px;
+    color: #991B1B;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 6px;
+}
+
+.customer-form .submit-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
 .product-form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
