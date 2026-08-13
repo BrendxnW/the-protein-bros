@@ -6,7 +6,7 @@ function CreateInvoice({ backendURL }) {
     const [customers, setCustomers] = useState([]);
     const [customerID, setCustomerID] = useState("");
     const [orderDate, setOrderDate] = useState("");
-    const [totalCost, setTotalCost] = useState(0);
+    const [totalCost, setTotalCost] = useState(0.00);
     const [products, setProducts] = useState([]);
     const [order, setOrder] = useState([]);
 
@@ -36,6 +36,7 @@ function CreateInvoice({ backendURL }) {
         navigate("/invoices");
     };
 
+    // Recording selected items, prices, and quantities
     function recordOrder(productID, price, quantity) {
         setOrder(order => {
             // Checking if product is already listed in the order
@@ -46,7 +47,7 @@ function CreateInvoice({ backendURL }) {
                 // Adjusting total cost of order
                 const curItemTotal = listed.price * listed.quantity;
                 const newItemTotal = price * quantity;
-                setTotalCost(newtotal => totalCost + newItemTotal - curItemTotal);
+                setTotalCost(newTotal => totalCost + newItemTotal - curItemTotal);
 
                 // Replacing listed values
                 return order.map(x => {
@@ -63,8 +64,8 @@ function CreateInvoice({ backendURL }) {
 
             // Product not listed in the Invoice
             // Adjust total cost of order
-            setTotalCost(newtotal => totalCost + price * quantity);
-
+            setTotalCost(newTotal => totalCost + price * quantity);
+            // Add new product to Invoice
             return [
                 ...order,
                 {
@@ -134,7 +135,7 @@ function CreateInvoice({ backendURL }) {
 
                         <div className="form-field">
                             <label htmlFor="totalCost">Invoice Total</label>
-                            <div>${Number(totalCost).toFixed(2)}</div>
+                            <div>${Math.abs(Number(totalCost)).toFixed(2)}</div>
                         </div>
                     </div>
 
