@@ -202,10 +202,10 @@ END //
 
 DELIMITER ;
 
+
 -- Add new Supplier-Product relationship
 DROP PROCEDURE IF EXISTS add_supplier_product;
 DELIMITER //
-
 CREATE PROCEDURE add_supplier_product(
     IN inputProductID INT,
     IN inputSupplierID INT,
@@ -217,8 +217,35 @@ BEGIN
     VALUES (inputProductID, inputSupplierID, inputWholesale);
     SET invoiceDetailsID = LAST_INSERT_ID();
 END //
-
 DELIMITER ;
+
+
+-- Add new Invoice Details
+DROP PROCEDURE IF EXISTS add_invoice_details;
+DELIMITER //
+CREATE PROCEDURE add_invoice_details(
+    in inputInvoiceID int,
+    in inputProductID int,
+    in inputPrice decimal(10, 2),
+    in inputQuantity int
+)
+BEGIN
+    INSERT INTO InvoiceDetails (
+        invoiceID,
+        productID,
+        priceAtSale,
+        quantityOrdered
+    )
+    VALUES (
+        inputInvoiceID,
+        inputProductID,
+        inputPrice,
+        inputQuantity
+    );
+END //
+DELIMITER ;
+
+
 
 -- -----------------------
 -- Update Procedures --

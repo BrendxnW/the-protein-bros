@@ -19,10 +19,12 @@ function CreateInvoice({ backendURL }) {
             });
     }, [backendURL]);
 
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newInvoice = { customerID, orderDate, totalCost };
+        const newInvoice = { customerID, orderDate, totalCost, order };
         const response = await fetch(`${backendURL}/add-invoice`, {
             method: "POST",
             headers: { "Content-type": "application/json" },
@@ -35,7 +37,7 @@ function CreateInvoice({ backendURL }) {
         }
         navigate("/invoices");
     };
-
+    
     // Recording selected items, prices, and quantities
     function recordOrder(productID, price, quantity) {
         setOrder(order => {

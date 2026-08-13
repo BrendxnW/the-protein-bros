@@ -153,14 +153,35 @@ app.get(`/supplier-products/:supplierID`, async (req, res) => {
 })
 
 
-// Add a new Invoice to the database
+// Add a new Invoice and its details to the database
 app.post(`/add-invoice`, async(req, res) => {
     try {
-        const {customerID, totalCost, orderDate} = req.body;
+        const {customerID, totalCost, orderDate, order} = req.body;
         await db.query(`call add_invoice(?, ?, ?, @invoiceID);`,
             [customerID, totalCost, orderDate]);
         const [response] = await db.query(`select @invoiceID as invoiceID;`);
-        res.status(200).json({invoiceID: response[0].invoiceID});
+        const newInvoiceID = response[0].invoiceID;
+
+        // pass invoiceID and order object to the helper
+        // helper iterates, pulls relevant data, sends query to db then loops until complete
+
+        // if theres an error at any point, set up a proc that will go back and delete the 
+        // entire invoice and any details associated
+
+        // else the helper will return some kind of okay
+
+
+        for (const item of order) {
+            const productID = item.productID;
+            const price = item.price;
+            const quantity = item.quantity;
+            await db.query(`call add_invoice_details(?,?,?,?);`, 
+                [newInvoiceID, productID, price, quantity]
+            );
+        };
+
+
+        res.status(200).json({invoiceID: newInvoiceID});
     } catch (error) {
         console.error("Error executing queries:", error);
         res.status(500).json({ error: "An error occurred while executing the database queries." });
